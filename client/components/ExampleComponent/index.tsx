@@ -9,10 +9,11 @@ interface Props extends WithStyles<typeof styles> {
 class Example extends React.Component<Props, {}>
 {
     render() {
-        const { classes , foo} = this.props
-        return <div>
-            <Button className={classes.root} >Example of ts + styles {foo} </Button>
-        </div>
+        const { classes, foo } = this.props
+        return (
+            <div>
+                <Button className={classes.root} >Example of ts + styles {foo} </Button>
+            </div>)
     }
 }
 

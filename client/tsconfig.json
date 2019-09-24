@@ -7,7 +7,7 @@
     "lib": ["dom","dom.iterable","es2018"],                             /* Specify library files to be included in the compilation. */
     "jsx": "react",
     "strict": true,                           /* Enable all strict type-checking options. */
-
+    "sourceMap": true,
     /* Additional Checks */
     "noUnusedLocals": true,                /* Report errors on unused locals. */
     "noUnusedParameters": true,            /* Report errors on unused parameters. */
