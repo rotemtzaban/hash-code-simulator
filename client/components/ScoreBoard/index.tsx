@@ -12,10 +12,8 @@ import { ThemeProvider, WithStyles } from '@material-ui/styles';
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            width: '40%',
-            marginTop: theme.spacing(3),
             overflowX: 'auto',
-            overflowY: 'auto',
+            overflowY: 'auto'
         },
         table: {
             minWidth: 200
@@ -31,7 +29,8 @@ interface TeamRecord {
 const data: TeamRecord[] = [
     { team: 'pixel', score: 9001, position: 1 },
     { team: 'anotherTeam', score: 8000, position: 2 },
-    { team: 'anotherTeam2', score: 7000, position: 3 }
+    { team: 'anotherTeam2', score: 7000, position: 3 },
+    { team: 'anotherTeam3', score: 4000, position: 4 }
 ];
 
 interface ScoreBoardProps extends WithStyles<typeof styles> {}
