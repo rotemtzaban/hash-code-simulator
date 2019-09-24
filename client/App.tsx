@@ -1,25 +1,52 @@
 import React from 'react';
 import './index.css';
 import ButtonAppBar from './components/AppBar';
-import { ThemeProvider } from '@material-ui/styles';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import { RouteComponentProps, Route } from 'react-router';
+import { ThemeProvider, createStyles } from '@material-ui/styles';
+import createMuiTheme, { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { Router, RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import SignUp from './components/Auth/SignUp';
+import ScoreBoard from './components/ScoreBoard';
+import Grid from '@material-ui/core/Grid';
+import { WithStyles, withStyles } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
 
-class HelloWorld extends React.Component<RouteComponentProps<any>> {
+const styles = (theme: Theme) =>
+    createStyles({
+        root: {
+            flexGrow: 1
+        },
+        item: {
+            padding: theme.spacing(2),
+            marginTop:theme.spacing(3)
+        },
+        paper:{
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+        }
+    });
+class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<typeof styles>> {
     render() {
         return (
             <div>
                 <ThemeProvider theme={createMuiTheme()}>
-                    <ButtonAppBar isLoggedIn={true} />
-                    <Route exact path='/signup'>
-                        <SignUp />
-                    </Route>
+                    <Router history={this.props.history}>
+                        <ButtonAppBar isLoggedIn={true} />
+                        <Grid container>
+                            <Grid item xs={4} className={this.props.classes.item}>
+                                <Paper className={this.props.classes.paper}></Paper>
+                            </Grid>
+                            <Grid item xs={4} className={this.props.classes.item}>
+                                <Paper className={this.props.classes.paper}></Paper>
+                            </Grid>
+                            <Grid item xs={4} className={this.props.classes.item}>
+                                <ScoreBoard></ScoreBoard>
+                            </Grid>
+                        </Grid>
+                    </Router>
                 </ThemeProvider>
             </div>
         );
     }
 }
 
-export default withRouter(HelloWorld);
+export default withStyles(styles)(withRouter(HelloWorld));
