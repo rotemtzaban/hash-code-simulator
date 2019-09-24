@@ -30,6 +30,10 @@ class SignUp extends React.Component<Props, State>
         this.setState({ ...this.state, [prop]: event.target.value });
     };
 
+    handleClickShowPassword = () => {
+        this.setState({ showPassword: !this.state.showPassword });
+    };
+
     render() {
         let { classes } = this.props;
         return (
@@ -47,8 +51,7 @@ class SignUp extends React.Component<Props, State>
                             <IconButton
                                 edge="end"
                                 aria-label="toggle password visibility"
-                            // onClick={handleClickShowPassword}
-                            // onMouseDown={handleMouseDownPassword}
+                                onClick={(e) => this.handleClickShowPassword()}
                             >
                                 {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>

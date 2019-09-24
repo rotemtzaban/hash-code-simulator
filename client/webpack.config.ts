@@ -9,9 +9,13 @@ const config: webpack.Configuration = {
     mode: devMode ? 'development' : 'production',
     entry: './index.tsx',
     output: {
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
-    devtool: devMode?  'eval-source-map': 'source-map',
+    devServer: {
+        historyApiFallback: true,
+    },
+    devtool: devMode ? 'eval-source-map' : 'source-map',
     module: {
         rules: [
             {
@@ -47,7 +51,7 @@ const config: webpack.Configuration = {
         }),
         new MiniCssExtractPlugin({
             filename: devMode ? '[name].css' : '[name].[hash].css',
-            chunkFilename : devMode ? '[id].css' : '[id].[hash].css'
+            chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
         })
     ]
 };

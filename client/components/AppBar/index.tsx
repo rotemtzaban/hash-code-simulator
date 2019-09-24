@@ -7,8 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import styles from './styles'
 import { WithStyles, withStyles } from '@material-ui/styles';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-interface AppBarProps extends WithStyles<typeof styles> {
+interface AppBarProps extends WithStyles<typeof styles> , RouteComponentProps<any> {
   isLoggedIn : boolean;
 }
 
@@ -25,11 +26,11 @@ function ButtonAppBar(props: AppBarProps) {
           <Typography variant="h6" className={classes.title}>
             {toolbarTittle}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button onClick={() => props.history.push("/signup")} color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-export default withStyles(styles)(ButtonAppBar);
+export default withStyles(styles)(withRouter(ButtonAppBar));
