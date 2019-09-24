@@ -1,10 +1,13 @@
 import React from 'react';
 import {render} from 'react-dom';
 import './index.css';
+import Example from './components/ExampleComponent'
 
 class HelloWorld extends React.Component{
     render(){
-        return (<div>Hello World </div>)
+        return (<div>Hello World
+            <Example foo={4}/>
+        </div>)
     }
 }
 
