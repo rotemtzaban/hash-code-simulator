@@ -1,6 +1,21 @@
 import express from 'express';
+import * as bodyParser from "body-parser";
+import helmet from "helmet";
+import cors from "cors";
+import routes from "./routes";
+import Mongoose from 'mongoose';
 
-const app = express();
-app.get('/api/isalive', (req, res) =>  res.json("allGood").send());
+Mongoose.connect('mongodb://localhost:27017/hashcode', { useNewUrlParser: true }).then(() => {
+    const app = express();
+    app.use(cors());
+    app.use(helmet());
+    app.use(bodyParser.json());
 
-app.listen(5000);
+    app.use("/api", routes);
+    app.get('/api/isalive', (req, res) => res.send("server is up!"));
+
+    app.listen(5000, () => {
+        // tslint:disable-next-line: no-console
+        console.log("Server started on port 5000!");
+    });
+});
