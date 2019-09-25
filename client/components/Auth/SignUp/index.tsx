@@ -30,6 +30,19 @@ class SignUp extends React.Component<Props, State>
             }
     }
 
+    componentWillReceiveProps(newProps: Props) {
+        if (newProps.isLoggedIn) {
+            newProps.history.push("/");
+            return;
+        }
+    }
+
+    componentWillMount(){
+        if(this.props.isLoggedIn){
+            this.props.history.push("/");
+        }
+    }
+
     handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ ...this.state, [prop]: event.target.value });
     };

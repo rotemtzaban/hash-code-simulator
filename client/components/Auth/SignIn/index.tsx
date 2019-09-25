@@ -15,7 +15,7 @@ interface State {
     showPassword: boolean;
 }
 
-interface Props extends WithStyles<typeof styles>, AuthComponenetProps , RouteComponentProps<any> {
+interface Props extends WithStyles<typeof styles>, AuthComponenetProps, RouteComponentProps<any> {
 }
 
 class SignIn extends React.Component<Props, State>
@@ -28,6 +28,19 @@ class SignIn extends React.Component<Props, State>
                 username: "",
                 showPassword: true
             }
+    }
+
+    componentWillReceiveProps(newProps: Props) {
+        if (newProps.isLoggedIn) {
+            newProps.history.push("/");
+            return;
+        }
+    }
+
+    componentWillMount() {
+        if (this.props.isLoggedIn) {
+            this.props.history.push("/");
+        }
     }
 
     handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
