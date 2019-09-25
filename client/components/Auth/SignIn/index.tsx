@@ -7,7 +7,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
 import withAuth from "../AuthManager/AuthProvider"
 import { AuthComponenetProps } from '../AuthManager/AuthProvider';
-import { Link } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 interface State {
     password: string;
@@ -15,9 +15,8 @@ interface State {
     showPassword: boolean;
 }
 
-interface Props extends WithStyles<typeof styles>, AuthComponenetProps {
+interface Props extends WithStyles<typeof styles>, AuthComponenetProps , RouteComponentProps<any> {
 }
-
 
 class SignIn extends React.Component<Props, State>
 {
@@ -102,4 +101,4 @@ class SignIn extends React.Component<Props, State>
     };
 }
 
-export default withAuth(withStyles(styles)(SignIn));
+export default withRouter(withAuth(withStyles(styles)(SignIn)));

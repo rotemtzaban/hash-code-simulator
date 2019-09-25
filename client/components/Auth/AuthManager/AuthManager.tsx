@@ -22,7 +22,7 @@ class Auth {
         this.changeListenrs.push(handleChange);
     }
 
-    signIn(userName: string, password: string) {
+    async signIn(userName: string, password: string) {
         this.isLoggedIn = true;
         this.tokenData = {
             expiresAt: new Date(new Date().getTime() + 60 * 60 * 5),
@@ -30,6 +30,7 @@ class Auth {
         }
 
         this.notifySignStatusChanged();
+        return true;
         //TODO - implement sign in on server
         // return new Promise((resolve, reject) => {
         //     this.isAuth0 = false;

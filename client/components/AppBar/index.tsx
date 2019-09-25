@@ -17,9 +17,8 @@ import { AuthComponenetProps } from '../Auth/AuthManager/AuthProvider';
 
 import AuthManager from "../Auth/AuthManager/AuthManager"
 
-interface AppBarProps extends WithStyles<typeof styles>, RouteComponentProps<any>, AuthComponenetProps {
-  isLoggedIn: boolean;
-}
+interface AppBarProps extends WithStyles<typeof styles>, AuthComponenetProps, RouteComponentProps<any> {
+};
 
 function ButtonAppBar(props: AppBarProps) {
   const { classes } = props;
@@ -41,7 +40,7 @@ function ButtonAppBar(props: AppBarProps) {
     <Typography variant="body2">
       {props.user}
     </Typography>,
-    <IconButton style={{borderRadius: "10px", fontSize:"16px"}} aria-label="show 4 new mails" color="inherit" onClick={() => AuthManager.signOut()}>
+    <IconButton style={{ borderRadius: "10px", fontSize: "16px" }} aria-label="show 4 new mails" color="inherit" onClick={() => AuthManager.signOut()}>
       <ExitToApp />
       Sign out
     </IconButton>
@@ -61,7 +60,6 @@ function ButtonAppBar(props: AppBarProps) {
             toolbarButtons.map(station => <div> {station} </div>)
           }
           {!props.isLoggedIn &&
-            // <Button onClick={(e) => AuthManager.signIn("", "")} color="inherit">Login</Button>
             <Button onClick={(e) => props.history.push('/signin')} color="inherit">Login</Button>
           }
         </Toolbar>
@@ -69,4 +67,5 @@ function ButtonAppBar(props: AppBarProps) {
     </div >
   );
 }
-export default withAuth(withStyles(styles)(withRouter(ButtonAppBar)));
+
+export default withRouter(withAuth(withStyles(styles)(ButtonAppBar)));
