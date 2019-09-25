@@ -5,6 +5,7 @@ export interface AuthComponenetProps {
     isLoggedIn: boolean;
     user?: string;
     signIn?: (username: string, password: string) => any;
+    signUp?: (username: string, password: string) => any;
 }
 
 interface AuthState {
@@ -42,7 +43,11 @@ export default function withAuth<T extends AuthComponenetProps>(Component: React
         }
 
         render() {
-            return <Component {...this.props as T} isLoggedIn={this.state.isLoggedIn} user={this.state.user} signIn={(username: string, password: string) => AuthManager.signIn(username, password)} />;
+            return <Component {...this.props as T}
+                isLoggedIn={this.state.isLoggedIn} user={this.state.user}
+                signIn={(username: string, password: string) => AuthManager.signIn(username, password)}
+                signUn={(username: string, password: string) => AuthManager.signUp(username, password)}
+            />;
         }
     };
 };

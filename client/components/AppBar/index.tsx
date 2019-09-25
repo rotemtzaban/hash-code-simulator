@@ -62,7 +62,7 @@ function ButtonAppBar(props: AppBarProps) {
           }
           {!props.isLoggedIn &&
             // <Button onClick={(e) => AuthManager.signIn("", "")} color="inherit">Login</Button>
-            <Button onClick={(e) => props.history.push('/signup')} color="inherit">Login</Button>
+            <Button onClick={(e) => props.history.push('/signin')} color="inherit">Login</Button>
           }
         </Toolbar>
       </AppBar>

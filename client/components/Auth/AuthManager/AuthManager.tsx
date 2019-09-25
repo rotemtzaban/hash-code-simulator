@@ -28,8 +28,9 @@ class Auth {
             expiresAt: new Date(new Date().getTime() + 60 * 60 * 5),
             userName: userName,
         }
-        
+
         this.notifySignStatusChanged();
+        //TODO - implement sign in on server
         // return new Promise((resolve, reject) => {
         //     this.isAuth0 = false;
         //     return axios.post(`${SERVER_URI}/sign-in`, {
@@ -47,6 +48,10 @@ class Auth {
         //         }
         //     }).catch(console.log('error signing in'));
         // });
+    }
+
+    signUp(userName: string, password: string) {
+        //TODO - implement sign up on server
     }
 
     notifySignStatusChanged() {

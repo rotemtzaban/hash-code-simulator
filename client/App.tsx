@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import SignUp from './components/Auth/SignUp';
+import SignIn from './components/Auth/SignIn';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -25,6 +26,7 @@ const styles = (theme: Theme) =>
             color: theme.palette.text.secondary,
         }
     });
+
 class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<typeof styles>> {
     render() {
         return (
@@ -33,7 +35,7 @@ class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<t
                     <Router history={this.props.history}>
                         <ButtonAppBar />
                         <Route exact path='/signin' >
-                            <SignUp />
+                            <SignIn />
                         </Route>
                         <Route exact path='/signup' >
                             <SignUp />

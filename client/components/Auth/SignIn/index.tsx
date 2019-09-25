@@ -7,6 +7,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
 import withAuth from "../AuthManager/AuthProvider"
 import { AuthComponenetProps } from '../AuthManager/AuthProvider';
+import { Link } from "react-router-dom";
 
 interface State {
     password: string;
@@ -18,7 +19,7 @@ interface Props extends WithStyles<typeof styles>, AuthComponenetProps {
 }
 
 
-class SignUp extends React.Component<Props, State>
+class SignIn extends React.Component<Props, State>
 {
     constructor(props: Props) {
         super(props);
@@ -46,7 +47,7 @@ class SignUp extends React.Component<Props, State>
                     <LockOpenOutlined />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign Up
+                    Sign In
                     </Typography>
                 <TextField
                     id="outlined-adornment-password"
@@ -84,16 +85,21 @@ class SignUp extends React.Component<Props, State>
                         ),
                     }}
                 />
-                <Button onClick={(e) => { if (this.props.signUp !== undefined) { this.props.signUp(this.state.username, this.state.password) } }}
+                <Button onClick={(e) => { if (this.props.signIn !== undefined) { this.props.signIn(this.state.username, this.state.password) } }}
                     type="submit"
                     fullWidth
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                >Sign Up</Button>
+                >Sign In</Button>
+                <Link to='/signup'>
+                    <Typography component="h1" variant="h6">
+                        Sign Up Now!
+                      </Typography>
+                </Link>
             </Container>
         )
     };
 }
 
-export default withAuth(withStyles(styles)(SignUp));
+export default withAuth(withStyles(styles)(SignIn));
