@@ -61,8 +61,8 @@ function ButtonAppBar(props: AppBarProps) {
             toolbarButtons.map(station => <div> {station} </div>)
           }
           {!props.isLoggedIn &&
-            <Button onClick={(e) => AuthManager.signIn("", "")} color="inherit">Login</Button>
-            // <Button onClick={(e) => props.signIn({...e, userName: "asd", password: "sads"})} color="inherit">Login</Button>
+            // <Button onClick={(e) => AuthManager.signIn("", "")} color="inherit">Login</Button>
+            <Button onClick={(e) => props.history.push('/signup')} color="inherit">Login</Button>
           }
         </Toolbar>
       </AppBar>

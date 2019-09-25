@@ -22,11 +22,11 @@ class Auth {
         this.changeListenrs.push(handleChange);
     }
 
-    signIn(email: string, password: string) {
+    signIn(userName: string, password: string) {
         this.isLoggedIn = true;
         this.tokenData = {
             expiresAt: new Date(new Date().getTime() + 60 * 60 * 5),
-            userName: "Pixel Team",
+            userName: userName,
         }
         
         this.notifySignStatusChanged();

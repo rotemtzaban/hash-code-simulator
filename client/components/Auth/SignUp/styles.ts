@@ -9,6 +9,21 @@ export default (theme: Theme) => createStyles({
         margin: theme.spacing(1),
     },
     textField: {
-        flexBasis: 200,
+        marginRight: "auto",
+        marginLeft: "auto"
+    },
+    container: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexWrap: 'wrap',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
     },
 });

@@ -1,15 +1,10 @@
 import AuthManager from "./AuthManager";
 import React, { MouseEventHandler } from "react";
-import { Button } from "@material-ui/core";
 
 export interface AuthComponenetProps {
     isLoggedIn: boolean;
     user?: string;
-}
-
-interface SignInDetails {
-    userName: string;
-    password: string;
+    signIn?: (username: string, password: string) => any;
 }
 
 interface AuthState {
@@ -47,8 +42,7 @@ export default function withAuth<T extends AuthComponenetProps>(Component: React
         }
 
         render() {
-            <Button></Button>
-            return <Component {...this.props as T} isLoggedIn={this.state.isLoggedIn} user={this.state.user} signIn={(details: SignInDetails) => AuthManager.signIn(details.userName, details.password)} />;
+            return <Component {...this.props as T} isLoggedIn={this.state.isLoggedIn} user={this.state.user} signIn={(username: string, password: string) => AuthManager.signIn(username, password)} />;
         }
     };
 };
