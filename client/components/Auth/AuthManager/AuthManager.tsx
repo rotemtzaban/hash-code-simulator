@@ -16,10 +16,17 @@ class Auth {
         this.signOut = this.signOut.bind(this);
         this.addChangeListner = this.addChangeListner.bind(this);
         this.notifySignStatusChanged = this.notifySignStatusChanged.bind(this);
+
+        this.silentAuth();
     }
 
     addChangeListner(handleChange: () => void) {
         this.changeListenrs.push(handleChange);
+    }
+
+    removeChangeListner(handleChange: () => void) {
+        //TODO: fix - its doesnt remove the listner
+        this.changeListenrs.filter(_ => handleChange);
     }
 
     async signIn(username: string, password: string) {
@@ -100,15 +107,12 @@ class Auth {
     }
 
     silentAuth() {
-        return new Promise((resolve, reject) => {
-            const token = sessionStorage.getItem('jwtToken');
-            if (!token || token === '') {
-                reject('login_requird');
-                return;
-            }
-            this.setSession(token);
-            resolve();
-        });
+        const token = sessionStorage.getItem('jwtToken');
+        if (!token || token === '') {
+            return;
+        }
+
+        this.setSession(token);
     }
 
     signOut() {

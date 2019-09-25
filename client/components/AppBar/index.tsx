@@ -57,7 +57,7 @@ function ButtonAppBar(props: AppBarProps) {
             {toolbarTittle}
           </Typography>
           {props.isLoggedIn &&
-            toolbarButtons.map(station => <div> {station} </div>)
+            toolbarButtons.map((station , index) => <div key={index}> {station} </div>)
           }
           {!props.isLoggedIn &&
             <Button onClick={(e) => props.history.push('/signin')} color="inherit">Login</Button>

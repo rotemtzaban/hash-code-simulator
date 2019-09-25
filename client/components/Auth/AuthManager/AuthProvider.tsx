@@ -38,6 +38,7 @@ function withAuth<T extends AuthComponenetProps>(
 
         componentWillUnmount() {
             //TODO: remove listner
+            AuthManager.removeChangeListner(this.handleChange);
         }
 
         handleChange() {
