@@ -18,7 +18,7 @@ export function checkToken(token: string | undefined): IUser | null {
         return null;
     }
 
-    // what about recreating token when expires? 
+    // TODO:what about recreating token when expires? 
     // const {  username } = jwtPayload;
     // const newToken = jwt.sign({ username }, config.jwtSecret, {
     //   expiresIn: "24h"

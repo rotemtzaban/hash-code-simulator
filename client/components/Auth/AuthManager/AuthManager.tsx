@@ -23,36 +23,56 @@ class Auth {
     }
 
     async signIn(username: string, password: string) {
-        this.isLoggedIn = true;
-        this.tokenData = {
-            expiresAt: new Date(new Date().getTime() + 60 * 60 * 5),
-            username: username,
-        }
+        try {
+            var response = await fetch('/api/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            });
 
-        this.notifySignStatusChanged();
-        return true;
-        //TODO - implement sign in on server
-        // return new Promise((resolve, reject) => {
-        //     this.isAuth0 = false;
-        //     return axios.post(`${SERVER_URI}/sign-in`, {
-        //         email: email,
-        //         password: password,
-        //     }).then(response => {
-        //         if (response.status === 200) {
-        //             const { token } = response.data;
-        //             if (!token || token === '') {
-        //                 this.signOut();
-        //                 return reject();
-        //             }
-        //             this.setSession(token);
-        //             return resolve();
-        //         }
-        //     }).catch(console.log('error signing in'));
-        // });
+            if (!response.ok) {
+                console.log('error occourd sign in', await response.text());
+                return false;
+            }
+
+            const token = await response.json();
+            this.setSession(token);
+            this.notifySignStatusChanged();
+            return true;
+        } catch (e) {
+            console.log('error occourd sign in');
+            return false;
+        }
     }
 
-    signUp(username: string, password: string) {
-        //TODO - implement sign up on server
+    async signUp(username: string, password: string) {
+        try {
+            var response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            });
+
+            if (response.status > 300) {
+                console.log('error occourd sign up', await response.text());
+                return false;
+            }
+
+            return true;
+        } catch (e) {
+            console.log('error occourd sign up');
+            return false;
+        }
     }
 
     notifySignStatusChanged() {
@@ -83,7 +103,7 @@ class Auth {
         return new Promise((resolve, reject) => {
             const token = sessionStorage.getItem('jwtToken');
             if (!token || token === '') {
-                reject('login_requird')
+                reject('login_requird');
                 return;
             }
             this.setSession(token);

@@ -14,6 +14,22 @@ const config: webpack.Configuration = {
     },
     devServer: {
         historyApiFallback: true,
+        port: 8080,
+        proxy: {
+            '/api': 'http://localhost:5000'
+        },
+        after(app) {
+            app.get('/api', (req, res) => {
+                const sNewUrl = 'http://localhost:5000' + req.originalUrl;
+                console.log(sNewUrl);
+                res.redirect(sNewUrl);
+            });
+            app.post('*', (req, res) => {
+                const sNewUrl = 'http://localhost:5000' + req.originalUrl;
+                console.log(sNewUrl);
+                res.redirect(sNewUrl);
+            });
+        },
     },
     devtool: devMode ? 'eval-source-map' : 'source-map',
     module: {

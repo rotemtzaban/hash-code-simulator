@@ -27,12 +27,12 @@ class AuthController {
         } catch (error) {
             return res.status(401).send("an error occourd");
         }
-        if (await bcrypt.compare(passwordAsString, user.password)) {
+        if (!await bcrypt.compare(passwordAsString, user.password)) {
             return res.status(401).send("invalid password");
         }
 
         const token = jwtHandler.createToken(user);
-        return res.send(token);
+        return res.json(token).send();
     };
 
     public static signUp = async (req: Request, res: Response) => {

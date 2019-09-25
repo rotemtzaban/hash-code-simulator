@@ -12,7 +12,9 @@ Mongoose.connect('mongodb://localhost:27017/hashcode', { useNewUrlParser: true }
     app.use(bodyParser.json());
 
     app.use("/api", routes);
-    app.get('/api/isalive', (req, res) => res.send("server is up!"));
+    app.get('/api/isalive', (req, res) => {
+        res.send("server is up!");
+    });
 
     app.listen(5000, () => {
         // tslint:disable-next-line: no-console
