@@ -1,17 +1,28 @@
 import AuthManager from './AuthManager';
 import React, { MouseEventHandler, Mixin } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Snackbar, createStyles, Theme, WithStyles } from '@material-ui/core';
+import IFetchRsult from '../../Models/FetchResult';
 
-export interface AuthComponenetProps {
+export interface AuthComponenetProps extends WithStyles<typeof styles> {
     isLoggedIn?: boolean;
     user?: string;
     signIn?: (username: string, password: string, fallbackUrl?: string) => any;
     signUp?: (username: string, password: string) => any;
 }
 
+const styles = (theme: Theme) =>
+    createStyles({
+        error: {
+            backgroundColor: "red"
+        }
+    });
+
 interface AuthState {
     isLoggedIn: boolean;
     user?: string;
+    isSnackbarOpen: boolean;
+    snackBarErrorMsg: string;
 }
 
 // TODO - add loading symbol on loading.
@@ -25,7 +36,9 @@ function withAuth<T extends AuthComponenetProps>(
         constructor(props: T & RouteComponentProps<any>) {
             super(props);
             this.state = {
-                isLoggedIn: AuthManager.isLoggedIn
+                isLoggedIn: AuthManager.isLoggedIn,
+                isSnackbarOpen: false,
+                snackBarErrorMsg: ''
             };
 
             this.handleChange = this.handleChange.bind(this);
@@ -56,8 +69,11 @@ function withAuth<T extends AuthComponenetProps>(
             password: string,
             fallbaclUrl?: string
         ) => {
-            var isSuccessfull = await AuthManager.signIn(username, password);
-            if (isSuccessfull) {
+            var fetchResult: IFetchRsult = await AuthManager.signIn(
+                username,
+                password
+            );
+            if (fetchResult.isSuccessfull) {
                 if (
                     fallbaclUrl !== undefined &&
                     fallbaclUrl !== null &&
@@ -68,6 +84,11 @@ function withAuth<T extends AuthComponenetProps>(
                 }
 
                 this.props.history.push('/');
+            } else {
+                this.setState({
+                    isSnackbarOpen: true,
+                    snackBarErrorMsg: fetchResult.errorMsg as string
+                });
             }
         };
 
@@ -76,8 +97,8 @@ function withAuth<T extends AuthComponenetProps>(
             password: string,
             fallbaclUrl?: string
         ) => {
-            let isSuccessfull = await AuthManager.signUp(username, password);
-            if (isSuccessfull) {
+            let fetchResult = await AuthManager.signUp(username, password);
+            if (fetchResult.isSuccessfull) {
                 if (
                     fallbaclUrl !== undefined &&
                     fallbaclUrl !== null &&
@@ -88,18 +109,40 @@ function withAuth<T extends AuthComponenetProps>(
                 }
 
                 this.props.history.push('/signin');
+            } else {
+                this.setState({
+                    isSnackbarOpen: true,
+                    snackBarErrorMsg: fetchResult.errorMsg as string
+                });
             }
+        };
+
+        onSnackbarClose = (e: any) => {
+            this.setState({ isSnackbarOpen: false });
         };
 
         render() {
             return (
-                <Component
-                    {...(this.props as T)}
-                    isLoggedIn={this.state.isLoggedIn}
-                    user={this.state.user}
-                    signIn={this.signIn}
-                    signUp={this.signUp}
-                />
+                <div>
+                    <Component
+                        {...(this.props as T)}
+                        isLoggedIn={this.state.isLoggedIn}
+                        user={this.state.user}
+                        signIn={this.signIn}
+                        signUp={this.signUp}
+                    />
+                    <Snackbar
+                        className={this.props.classes.error}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left'
+                        }}
+                        message={this.state.snackBarErrorMsg}
+                        open={this.state.isSnackbarOpen}
+                        autoHideDuration={6000}
+                        onClose={this.onSnackbarClose}
+                    ></Snackbar>
+                </div>
             );
         }
     };

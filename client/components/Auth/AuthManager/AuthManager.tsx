@@ -1,7 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import User from '../../Models/User';
 import TokenData from '../../Models/TokenData';
-import React, { cloneElement, ReactElement } from 'react';
 
 class Auth {
     user?: User;
@@ -43,17 +42,19 @@ class Auth {
             });
 
             if (!response.ok) {
-                console.log('error occourd sign in', await response.text());
-                return false;
+                const errorMsg = await response.text();
+                console.log('error occourd sign in', errorMsg);
+                return { isSuccessfull: false, errorMsg };
             }
 
             const token = await response.json();
             this.setSession(token);
             this.notifySignStatusChanged();
-            return true;
+
+            return { isSuccessfull: true };
         } catch (e) {
             console.log('error occourd sign in');
-            return false;
+            return { isSuccessfull: false, errorMsg: 'error occourd sign in' };
         }
     }
 
@@ -71,14 +72,17 @@ class Auth {
             });
 
             if (response.status > 300) {
-                console.log('error occourd sign up', await response.text());
-                return false;
+                const errorMsg = await response.text();
+                console.log('error occourd sign up', errorMsg);
+
+                return { isSuccessfull: false, errorMsg };
             }
 
-            return true;
+            return { isSuccessfull: true };
+            1;
         } catch (e) {
             console.log('error occourd sign up');
-            return false;
+            return { isSuccessfull: false, errorMsg: 'error occourd sign up' };
         }
     }
 

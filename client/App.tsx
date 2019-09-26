@@ -40,6 +40,9 @@ class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<t
                         <Route exact path='/signup' >
                             <SignUp />
                         </Route>
+                        <Route exact path='/scoreboard' >
+                            <ScoreBoard />
+                        </Route>
                         <Route exact path='/' >
                             <Grid container>
                                 <Grid item xs={4} className={this.props.classes.item}>
@@ -49,7 +52,7 @@ class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<t
                                     <Paper className={this.props.classes.paper}></Paper>
                                 </Grid>
                                 <Grid item xs={4} className={this.props.classes.item}>
-                                    <ScoreBoard></ScoreBoard>
+                                    <ScoreBoard/>
                                 </Grid>
                             </Grid>
                         </Route>
