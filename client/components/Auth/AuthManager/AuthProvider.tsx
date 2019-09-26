@@ -140,7 +140,6 @@ function withAuth<T extends AuthComponenetProps>(
                             message={this.state.snackBarErrorMsg}
                         />
                     </Snackbar>
-                    >
                 </div>
             );
         }
