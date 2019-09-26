@@ -78,6 +78,9 @@ class Auth {
                 return { isSuccessfull: false, errorMsg };
             }
 
+            const token = await response.json();
+            this.setSession(token);
+            this.notifySignStatusChanged();
             return { isSuccessfull: true };
             1;
         } catch (e) {
@@ -128,6 +131,7 @@ class Auth {
     setSession(token: string) {
         sessionStorage.setItem('jwtToken', token);
         this.tokenData = jwtDecode<TokenData>(token);
+        this.user = {username: this.tokenData.username, email: ""}
         this.isLoggedIn = true;
     }
 }

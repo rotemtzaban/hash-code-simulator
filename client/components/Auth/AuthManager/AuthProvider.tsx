@@ -4,17 +4,18 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import IFetchRsult from '../../Models/FetchResult';
 import SnackbarContent from '../../SnackbarContent';
 import { Snackbar } from '@material-ui/core';
+import User from '../../Models/User';
 
 export interface AuthComponenetProps {
     isLoggedIn?: boolean;
-    user?: string;
+    user?: User;
     signIn?: (username: string, password: string, fallbackUrl?: string) => Promise<IFetchRsult>;
     signUp?: (username: string, password: string) => Promise<IFetchRsult>;
 }
 
 interface AuthState {
     isLoggedIn: boolean;
-    user?: string;
+    user?: User | undefined;
     isSnackbarOpen: boolean;
     snackBarErrorMsg: string;
 }
@@ -31,6 +32,7 @@ function withAuth<T extends AuthComponenetProps>(
             super(props);
             this.state = {
                 isLoggedIn: AuthManager.isLoggedIn,
+                user: AuthManager.getProfile(),
                 isSnackbarOpen: false,
                 snackBarErrorMsg: ''
             };
@@ -54,7 +56,7 @@ function withAuth<T extends AuthComponenetProps>(
             let user = token === undefined ? '' : token.username;
             this.setState({
                 isLoggedIn: AuthManager.isLoggedIn,
-                user: user
+                user: AuthManager.getProfile()
             });
         }
 
@@ -102,7 +104,7 @@ function withAuth<T extends AuthComponenetProps>(
                     return;
                 }
 
-                this.props.history.push('/signin');
+                this.props.history.push('/');
             } else {
                 this.setState({
                     isSnackbarOpen: true,
@@ -140,7 +142,6 @@ function withAuth<T extends AuthComponenetProps>(
                             message={this.state.snackBarErrorMsg}
                         />
                     </Snackbar>
-                    >
                 </div>
             );
         }

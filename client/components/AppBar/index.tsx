@@ -39,7 +39,7 @@ function ButtonAppBar(props: AppBarProps) {
             </IconButton>
             <p>Submit Try</p>
         </MenuItem>,
-        <Typography variant="body2">{props.user}</Typography>,
+        <Typography variant="body2">{props.user ? props.user.username: ""}</Typography>,
         <IconButton
             style={{ borderRadius: '10px', fontSize: '16px' }}
             aria-label="show 4 new mails"

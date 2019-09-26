@@ -50,7 +50,9 @@ class AuthController {
         const hashedPassword = await bcrypt.hash(passwordAsString, 15);
         const newUser = new User({ username: usernameAsString, password: hashedPassword });
         await newUser.save();
-        return res.status(201).send("signed up successfully");
+
+        const token = jwtHandler.createToken(newUser);
+        return res.status(201).json(token).send();
     };
 }
 
