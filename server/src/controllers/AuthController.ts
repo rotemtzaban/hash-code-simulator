@@ -11,13 +11,7 @@ class AuthController {
             return res.status(400).send("missing username or password");
         }
 
-        const usernameAsString = username as string;
         const passwordAsString = password as string;
-
-        if (!(usernameAsString && passwordAsString)) {
-            return res.status(400).send("missing username or password");
-        }
-
         let user: IUserModel | null = null;
         try {
             user = await User.findOne().where("username", username);
@@ -43,11 +37,6 @@ class AuthController {
 
         const usernameAsString = username as string;
         const passwordAsString = password as string;
-
-        if (!(usernameAsString && passwordAsString)) {
-            return res.status(400).send("missing username or password");
-        }
-
         let user: IUserModel | null = null;
         try {
             user = await User.findOne().where("username", username);

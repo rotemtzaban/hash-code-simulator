@@ -1,4 +1,5 @@
 import { createStyles, Theme } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 
 export default (theme: Theme) => createStyles({
     root: {
@@ -25,5 +26,31 @@ export default (theme: Theme) => createStyles({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+    },
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+        width: "100%"
+    },
+    buttonSuccess: {
+        backgroundColor: green[500],
+        '&:hover': {
+            backgroundColor: green[700],
+        },
+    },
+    fabProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: -6,
+        left: -6,
+        zIndex: 1,
+    },
+    buttonProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
     },
 });

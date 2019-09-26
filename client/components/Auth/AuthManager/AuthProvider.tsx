@@ -1,14 +1,15 @@
 import AuthManager from './AuthManager';
 import React, { MouseEventHandler, Mixin } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Snackbar, createStyles, Theme, WithStyles } from '@material-ui/core';
 import IFetchRsult from '../../Models/FetchResult';
+import SnackbarContent from '../../SnackbarContent';
+import { Snackbar } from '@material-ui/core';
 
-export interface AuthComponenetProps{
+export interface AuthComponenetProps {
     isLoggedIn?: boolean;
     user?: string;
-    signIn?: (username: string, password: string, fallbackUrl?: string) => any;
-    signUp?: (username: string, password: string) => any;
+    signIn?: (username: string, password: string, fallbackUrl?: string) => Promise<IFetchRsult>;
+    signUp?: (username: string, password: string) => Promise<IFetchRsult>;
 }
 
 interface AuthState {
@@ -110,7 +111,7 @@ function withAuth<T extends AuthComponenetProps>(
             }
         };
 
-        onSnackbarClose = (e: any) => {
+        onSnackbarClose = () => {
             this.setState({ isSnackbarOpen: false });
         };
 
@@ -125,16 +126,21 @@ function withAuth<T extends AuthComponenetProps>(
                         signUp={this.signUp}
                     />
                     <Snackbar
-                        style={{ background: 'red' }}
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'left'
                         }}
-                        message={this.state.snackBarErrorMsg}
                         open={this.state.isSnackbarOpen}
                         autoHideDuration={6000}
                         onClose={this.onSnackbarClose}
-                    ></Snackbar>
+                    >
+                        <SnackbarContent
+                            onClose={this.onSnackbarClose}
+                            variant="error"
+                            message={this.state.snackBarErrorMsg}
+                        />
+                    </Snackbar>
+                    >
                 </div>
             );
         }
