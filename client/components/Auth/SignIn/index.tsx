@@ -14,7 +14,7 @@ import React from 'react';
 import styles from './styles';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
+import LockOpenOutlined from '@material-ui/icons/LockRounded';
 import withAuth from '../AuthManager/AuthProvider';
 import { AuthComponenetProps } from '../AuthManager/AuthProvider';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';

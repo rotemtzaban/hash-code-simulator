@@ -22,7 +22,7 @@ export default (theme: Theme) => createStyles({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: green[500],
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
