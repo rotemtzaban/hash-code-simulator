@@ -11,6 +11,7 @@ import { WithStyles, withStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import SignUp from './components/Auth/SignUp';
 import SignIn from './components/Auth/SignIn';
+import QuestionCard from './components/QuestionCard';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -46,7 +47,7 @@ class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<t
                         <Route exact path='/' >
                             <Grid container>
                                 <Grid item xs={4} className={this.props.classes.item}>
-                                    <Paper className={this.props.classes.paper}></Paper>
+                                    <QuestionCard/>
                                 </Grid>
                                 <Grid item xs={4} className={this.props.classes.item}>
                                     <Paper className={this.props.classes.paper}></Paper>
