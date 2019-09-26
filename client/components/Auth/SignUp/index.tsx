@@ -26,7 +26,7 @@ class SignUp extends React.Component<Props, State>
             {
                 password: "",
                 username: "",
-                showPassword: true
+                showPassword: false
             }
     }
 

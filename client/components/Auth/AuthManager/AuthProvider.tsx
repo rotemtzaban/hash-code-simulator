@@ -4,19 +4,12 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Snackbar, createStyles, Theme, WithStyles } from '@material-ui/core';
 import IFetchRsult from '../../Models/FetchResult';
 
-export interface AuthComponenetProps extends WithStyles<typeof styles> {
+export interface AuthComponenetProps{
     isLoggedIn?: boolean;
     user?: string;
     signIn?: (username: string, password: string, fallbackUrl?: string) => any;
     signUp?: (username: string, password: string) => any;
 }
-
-const styles = (theme: Theme) =>
-    createStyles({
-        error: {
-            backgroundColor: "red"
-        }
-    });
 
 interface AuthState {
     isLoggedIn: boolean;
@@ -132,7 +125,7 @@ function withAuth<T extends AuthComponenetProps>(
                         signUp={this.signUp}
                     />
                     <Snackbar
-                        className={this.props.classes.error}
+                        style={{ background: 'red' }}
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'left'
