@@ -27,6 +27,10 @@ export default (theme: Theme) => createStyles({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    signup: {
+        margin: theme.spacing(0.3, 0, 2),
+        textDecoration: "none"
+    },
     wrapper: {
         margin: theme.spacing(1),
         position: 'relative',

@@ -146,12 +146,20 @@ class SignIn extends React.Component<Props, State> {
                             className={classes.buttonProgress}
                         />
                     )}
+                    <Link to="/signup" style={{ textDecoration: 'none' }}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.onSignClick}
+                            type="submit"
+                            fullWidth
+                            className={classes.signup}
+                            disabled={this.state.isLoading}
+                        >
+                            Sign Up Now!
+                        </Button>
+                    </Link>
                 </div>
-                <Link to="/signup">
-                    <Typography component="h1" variant="h6">
-                        Sign Up Now!
-                    </Typography>
-                </Link>
             </Container>
         );
     }
