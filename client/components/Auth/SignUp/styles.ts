@@ -26,7 +26,7 @@ export default (theme: Theme) => createStyles({
         backgroundColor: red[500],
     },
     submit: {
-        margin: theme.spacing(3, 0, 1),
+        margin: theme.spacing(3, 0, 2),
     },
     wrapper: {
         margin: theme.spacing(1),
@@ -51,7 +51,7 @@ export default (theme: Theme) => createStyles({
         position: 'absolute',
         top: '50%',
         left: '50%',
-        marginTop: -12,
-        marginLeft: -12,
+        marginTop: -10,
+        marginLeft: -13,
     },
 });

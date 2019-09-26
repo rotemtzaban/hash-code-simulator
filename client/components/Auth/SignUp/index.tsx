@@ -142,7 +142,7 @@ class SignIn extends React.Component<Props, State> {
                     </Button>
                     {this.state.isLoading && (
                         <CircularProgress
-                            size={25}
+                            size={26}
                             className={classes.buttonProgress}
                         />
                     )}
