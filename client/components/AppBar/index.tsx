@@ -39,7 +39,9 @@ function ButtonAppBar(props: AppBarProps) {
             </IconButton>
             <p>Submit Try</p>
         </MenuItem>,
-        <Typography variant="body2">{props.user ? props.user.username: ""}</Typography>,
+        <Typography variant="body2">
+            {props.user ? props.user.username : ''}
+        </Typography>,
         <IconButton
             style={{ borderRadius: '10px', fontSize: '16px' }}
             aria-label="show 4 new mails"
@@ -55,14 +57,6 @@ function ButtonAppBar(props: AppBarProps) {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="menu"
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         {toolbarTittle}
                     </Typography>
