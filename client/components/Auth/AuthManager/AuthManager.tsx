@@ -115,7 +115,7 @@ class Auth {
     }
 
     silentAuth() {
-        const token = sessionStorage.getItem('jwtToken');
+        const token = localStorage.getItem('jwtToken');
         if (!token || token === '') {
             return;
         }
@@ -124,7 +124,7 @@ class Auth {
     }
 
     signOut() {
-        sessionStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtToken');
         this.tokenData = undefined;
         this.token = undefined;
         this.isLoggedIn = false;
@@ -132,7 +132,7 @@ class Auth {
     }
 
     setSession(token: string) {
-        sessionStorage.setItem('jwtToken', token);
+        localStorage.setItem('jwtToken', token);
         this.token = token;
         this.tokenData = jwtDecode<TokenData>(token);
         this.user = { username: this.tokenData.username, email: '' };
