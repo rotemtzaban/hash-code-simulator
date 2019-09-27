@@ -24,36 +24,54 @@ const styles = (theme: Theme) =>
         },
         paper: {
             textAlign: 'center',
-            color: theme.palette.text.secondary,
+            color: theme.palette.text.secondary
         }
     });
 
-class HelloWorld extends React.Component<RouteComponentProps<any> & WithStyles<typeof styles>> {
+class HelloWorld extends React.Component<
+    RouteComponentProps<any> & WithStyles<typeof styles>
+> {
     render() {
         return (
             <div>
                 <ThemeProvider theme={createMuiTheme()}>
                     <Router history={this.props.history}>
                         <ButtonAppBar />
-                        <Route exact path='/signin' >
+                        <Route exact path="/signin">
                             <SignIn />
                         </Route>
-                        <Route exact path='/signup' >
+                        <Route exact path="/signup">
                             <SignUp />
                         </Route>
-                        <Route exact path='/scoreboard' >
-                            <ScoreBoard />
+                        <Route exact path="/scoreboard">
+                            <div style={{ margin: '80px' }}>
+                                <ScoreBoard />
+                            </div>
                         </Route>
-                        <Route exact path='/' >
+                        <Route exact path="/">
                             <Grid container>
-                                <Grid item xs={4} className={this.props.classes.item}>
-                                    <QuestionCard/>
+                                <Grid
+                                    item
+                                    xs={4}
+                                    className={this.props.classes.item}
+                                >
+                                    <QuestionCard />
                                 </Grid>
-                                <Grid item xs={4} className={this.props.classes.item}>
-                                    <Paper className={this.props.classes.paper}></Paper>
+                                <Grid
+                                    item
+                                    xs={4}
+                                    className={this.props.classes.item}
+                                >
+                                    <Paper
+                                        className={this.props.classes.paper}
+                                    ></Paper>
                                 </Grid>
-                                <Grid item xs={4} className={this.props.classes.item}>
-                                    <ScoreBoard/>
+                                <Grid
+                                    item
+                                    xs={4}
+                                    className={this.props.classes.item}
+                                >
+                                    <ScoreBoard />
                                 </Grid>
                             </Grid>
                         </Route>

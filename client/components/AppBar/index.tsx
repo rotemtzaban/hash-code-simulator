@@ -4,12 +4,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import styles from './styles';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { MenuItem } from '@material-ui/core';
+import { MenuItem, Paper } from '@material-ui/core';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import Score from '@material-ui/icons/Score';
 import withAuth from '../Auth/AuthManager/AuthProvider';
@@ -46,7 +46,10 @@ function ButtonAppBar(props: AppBarProps) {
             style={{ borderRadius: '10px', fontSize: '16px' }}
             aria-label="show 4 new mails"
             color="inherit"
-            onClick={() => AuthManager.signOut()}
+            onClick={() => {
+                AuthManager.signOut();
+                props.history.push('/');
+            }}
         >
             <ExitToApp />
             Sign out
@@ -57,6 +60,13 @@ function ButtonAppBar(props: AppBarProps) {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
+                    <IconButton
+                        onClick={() => props.history.push('/scoreboard')}
+                        aria-label="show 4 new mails"
+                        color="inherit"
+                    >
+                        <HomeIcon />
+                    </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         {toolbarTittle}
                     </Typography>
