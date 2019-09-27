@@ -54,4 +54,9 @@ export default (theme: Theme) => createStyles({
         marginTop: -10,
         marginLeft: -13,
     },
+    errormsg: {
+        color: theme.palette.error.dark,
+        marginRight: "auto",
+        marginLeft: theme.spacing(1),
+    }
 });

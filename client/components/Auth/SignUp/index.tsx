@@ -17,7 +17,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
 import withAuth from '../AuthManager/AuthProvider';
 import { AuthComponenetProps } from '../AuthManager/AuthProvider';
-import {  withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import clsx from 'clsx';
 
 interface State {
@@ -25,6 +25,10 @@ interface State {
     username: string;
     showPassword: boolean;
     isLoading: boolean;
+    isValidPassword: boolean;
+    passwordErrorMsg: string;
+    rePassword: string;
+    isPasswordMatch: boolean;
 }
 
 interface Props
@@ -39,8 +43,14 @@ class SignIn extends React.Component<Props, State> {
             password: '',
             username: '',
             showPassword: false,
-            isLoading: false
+            isLoading: false,
+            isValidPassword: true,
+            passwordErrorMsg: '',
+            isPasswordMatch: true,
+            rePassword: ''
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillReceiveProps(newProps: Props) {
@@ -59,7 +69,31 @@ class SignIn extends React.Component<Props, State> {
     handleChange = (prop: keyof State) => (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        this.setState({ ...this.state, [prop]: event.target.value });
+        this.setState({ ...this.state, [prop]: event.target.value }, () => {
+            if (
+                this.state.password.length > 0 &&
+                this.state.password.length < 8
+            ) {
+                this.setState({
+                    isValidPassword: false,
+                    passwordErrorMsg: 'password must be at least 8 chars long'
+                });
+            } else {
+                this.setState({ isValidPassword: true, passwordErrorMsg: '' });
+            }
+
+            console.log('password:' + this.state.password);
+            console.log('repassword:' + this.state.rePassword);
+
+            if (
+                this.state.rePassword.length > 0 &&
+                this.state.rePassword !== this.state.password
+            ) {
+                this.setState({ isPasswordMatch: false });
+            } else {
+                this.setState({ isPasswordMatch: true });
+            }
+        });
     };
 
     handleClickShowPassword = () => {
@@ -98,6 +132,7 @@ class SignIn extends React.Component<Props, State> {
                 />
                 <TextField
                     id="outlined-adornment-password"
+                    error={!this.state.isValidPassword}
                     required
                     fullWidth
                     disabled={this.state.isLoading}
@@ -128,6 +163,49 @@ class SignIn extends React.Component<Props, State> {
                         )
                     }}
                 />
+                {!this.state.isValidPassword && (
+                    <Typography className={classes.errormsg}>
+                        {this.state.passwordErrorMsg}
+                    </Typography>
+                )}
+                <TextField
+                    id="outlined-adornment-password"
+                    error={!this.state.isPasswordMatch && this.state.isValidPassword}
+                    required
+                    fullWidth
+                    disabled={this.state.isLoading}
+                    className={clsx(classes.margin, classes.textField)}
+                    variant="outlined"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    label="Verify Password"
+                    value={this.state.rePassword}
+                    onChange={this.handleChange('rePassword')}
+                    autoComplete="false"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    edge="end"
+                                    aria-label="toggle password visibility"
+                                    onClick={e =>
+                                        this.handleClickShowPassword()
+                                    }
+                                >
+                                    {this.state.showPassword ? (
+                                        <VisibilityOff />
+                                    ) : (
+                                        <Visibility />
+                                    )}
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+                {(!this.state.isPasswordMatch && this.state.isValidPassword) && (
+                    <Typography className={classes.errormsg}>
+                        {'Passwords not match'}
+                    </Typography>
+                )}
                 <div className={classes.wrapper}>
                     <Button
                         variant="contained"
