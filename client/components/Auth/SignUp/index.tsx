@@ -105,9 +105,9 @@ class SignIn extends React.Component<Props, State> {
             return;
         }
 
-        if (this.props.signIn !== undefined) {
+        if (this.props.signUp !== undefined) {
             this.setState({ isLoading: true });
-            await this.props.signIn(this.state.username, this.state.password);
+            await this.props.signUp(this.state.username, this.state.password);
             this.setState({ isLoading: false });
         }
     };
