@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 import ScoreBoard from './components/ScoreBoard';
 import Grid from '@material-ui/core/Grid';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import SignUp from './components/Auth/SignUp';
 import SignIn from './components/Auth/SignIn';
 import QuestionCard from './components/QuestionCard';
@@ -52,14 +52,14 @@ class HelloWorld extends React.Component<
                             <Grid container>
                                 <Grid
                                     item
-                                    xs={4}
+                                    xs={3}
                                     className={this.props.classes.item}
                                 >
                                     <QuestionCard />
                                 </Grid>
                                 <Grid
                                     item
-                                    xs={4}
+                                    xs={3}
                                     className={this.props.classes.item}
                                 >
                                     <Paper
@@ -68,9 +68,14 @@ class HelloWorld extends React.Component<
                                 </Grid>
                                 <Grid
                                     item
-                                    xs={4}
+                                    xs={6}
                                     className={this.props.classes.item}
                                 >
+                                    <Typography
+                                        variant="h6"
+                                    >
+                                        Scoreboard
+                                    </Typography>
                                     <ScoreBoard />
                                 </Grid>
                             </Grid>
