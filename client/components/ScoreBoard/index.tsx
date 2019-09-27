@@ -7,16 +7,23 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { createStyles, Theme, withStyles } from '@material-ui/core';
-import { ThemeProvider, WithStyles } from '@material-ui/styles';
+import {  WithStyles } from '@material-ui/styles';
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
             overflowX: 'auto',
-            overflowY: 'auto'
+            overflowY: 'auto',
         },
         table: {
             minWidth: 200
+        },
+        head: {
+            backgroundColor: theme.palette.primary.dark,
+            color: theme.palette.common.white
+        },
+        headCell:{
+            color: theme.palette.common.white
         }
     });
 
@@ -41,11 +48,11 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
         return (
             <Paper className={classes.root}>
                 <Table className={classes.table}>
-                    <TableHead>
+                    <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell align="left">Team</TableCell>
-                            <TableCell align="left">Score</TableCell>
-                            <TableCell align="left">Position</TableCell>
+                            <TableCell className={classes.headCell} align="left">Team</TableCell>
+                            <TableCell className={classes.headCell} align="left">Score</TableCell>
+                            <TableCell className={classes.headCell} align="left">Position</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

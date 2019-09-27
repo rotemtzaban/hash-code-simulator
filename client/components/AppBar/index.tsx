@@ -61,8 +61,7 @@ function ButtonAppBar(props: AppBarProps) {
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
-                        onClick={() => props.history.push('/scoreboard')}
-                        aria-label="show 4 new mails"
+                        onClick={() => props.history.push('/')}
                         color="inherit"
                     >
                         <HomeIcon />
