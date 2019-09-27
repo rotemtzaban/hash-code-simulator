@@ -101,6 +101,10 @@ class SignIn extends React.Component<Props, State> {
     };
 
     onSignClick = async (e: any) => {
+        if (!this.state.isValidPassword || !this.state.isPasswordMatch || this.state.password.length === 0) {
+            return;
+        }
+
         if (this.props.signIn !== undefined) {
             this.setState({ isLoading: true });
             await this.props.signIn(this.state.username, this.state.password);
@@ -170,7 +174,10 @@ class SignIn extends React.Component<Props, State> {
                 )}
                 <TextField
                     id="outlined-adornment-password"
-                    error={!this.state.isPasswordMatch && this.state.isValidPassword}
+                    error={
+                        !this.state.isPasswordMatch &&
+                        this.state.isValidPassword
+                    }
                     required
                     fullWidth
                     disabled={this.state.isLoading}
@@ -201,7 +208,7 @@ class SignIn extends React.Component<Props, State> {
                         )
                     }}
                 />
-                {(!this.state.isPasswordMatch && this.state.isValidPassword) && (
+                {!this.state.isPasswordMatch && this.state.isValidPassword && (
                     <Typography className={classes.errormsg}>
                         {'Passwords not match'}
                     </Typography>
