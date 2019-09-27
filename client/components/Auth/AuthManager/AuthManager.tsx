@@ -5,6 +5,7 @@ import TokenData from '../../Models/TokenData';
 class Auth {
     user?: User;
     tokenData?: TokenData;
+    token?: string;
     isLoggedIn: boolean;
     changeListenrs: any[] = [];
     constructor() {
@@ -71,7 +72,7 @@ class Auth {
                 })
             });
 
-            if (response.status > 300) {
+            if (!response.ok) {
                 const errorMsg = await response.text();
                 console.log('error occourd sign up', errorMsg);
 
@@ -124,14 +125,17 @@ class Auth {
 
     signOut() {
         sessionStorage.removeItem('jwtToken');
+        this.tokenData = undefined;
+        this.token = undefined;
         this.isLoggedIn = false;
         this.notifySignStatusChanged();
     }
 
     setSession(token: string) {
         sessionStorage.setItem('jwtToken', token);
+        this.token = token;
         this.tokenData = jwtDecode<TokenData>(token);
-        this.user = {username: this.tokenData.username, email: ""}
+        this.user = { username: this.tokenData.username, email: '' };
         this.isLoggedIn = true;
     }
 }
