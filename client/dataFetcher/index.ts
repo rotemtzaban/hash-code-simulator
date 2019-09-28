@@ -11,7 +11,7 @@ class DataFetcher {
     private async MakeAuthFetchReuquest<TResult>(
         url: string,
         body?: any
-    ): Promise<TeamResult | IFetchRsult> {
+    ): Promise<TResult | IFetchRsult> {
         const token = AuthManager.getToken();
         if (token === undefined) {
             return { isSuccessfull: false, errorMsg: 'user does not connected' };
@@ -37,7 +37,7 @@ class DataFetcher {
     private async MakeUnAuthFetchReuquest<TResult>(
         url: string,
         body?: any
-    ): Promise<TeamResult | IFetchRsult> {
+    ): Promise<TResult | IFetchRsult> {
         var response = await fetch('/api/data' + url, {
             method: 'GET',
             headers: {
