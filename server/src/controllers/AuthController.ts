@@ -27,8 +27,6 @@ class AuthController {
             return res.status(401).send("invalid password");
         }
 
-        console.log(user.team);
-
         if(isTeam(user.team)){
             const userInfo = { team: user.team.name, username: user.username };
             const token = jwtHandler.createToken(userInfo);
