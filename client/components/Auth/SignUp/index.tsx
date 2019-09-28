@@ -1,12 +1,3 @@
-import React from 'react';
-import styles from './styles';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
-import withAuth from '../AuthManager/AuthProvider';
-import { AuthComponenetProps } from '../AuthManager/AuthProvider';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import clsx from 'clsx';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
@@ -16,6 +7,20 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import React, { ChangeEvent, ReactNode } from 'react';
+import styles from './styles';
+import Select from '@material-ui/core/Select';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
+import withAuth from '../AuthManager/AuthProvider';
+import { AuthComponenetProps } from '../AuthManager/AuthProvider';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import clsx from 'clsx';
+import DataFetcher from '../../../dataFetcher';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 interface State {
     password: string;
@@ -26,17 +31,27 @@ interface State {
     passwordErrorMsg: string;
     rePassword: string;
     isPasswordMatch: boolean;
+    team: string;
+    createTeam: boolean;
+    selectTeam: string;
+    errorMsg: string;
 }
 
 interface Props
     extends WithStyles<typeof styles>,
-        AuthComponenetProps,
-        RouteComponentProps<any> {}
+    AuthComponenetProps,
+    RouteComponentProps<any> { }
 
 class SignIn extends React.Component<Props, State> {
+    //TODO : validate all fields ( team files is not empty)
+    // get teams from server
+    // validate that the newely created team is not already exsits
+
     constructor(props: Props) {
         super(props);
         this.state = {
+            errorMsg: '',
+            createTeam: false,
             password: '',
             username: '',
             showPassword: false,
@@ -44,7 +59,9 @@ class SignIn extends React.Component<Props, State> {
             isValidPassword: true,
             passwordErrorMsg: '',
             isPasswordMatch: true,
-            rePassword: ''
+            rePassword: '',
+            selectTeam: '',
+            team: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -57,11 +74,23 @@ class SignIn extends React.Component<Props, State> {
         }
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         if (this.props.isLoggedIn) {
             this.props.history.push('/');
         }
+
+        // this.teams = await DataFetcher.GetAllTeams();
     }
+
+    onTeamSelected = (event: ChangeEvent<{ name?: string; value: unknown; }>, child: ReactNode) => {
+        const selectValue = event.target.value as string;
+        if (selectValue === 'create') {
+            this.setState({ createTeam: true, team: '', selectTeam: selectValue });
+        }
+        else {
+            this.setState({ createTeam: false, team: selectValue, selectTeam: selectValue });
+        }
+    };
 
     handleChange = (prop: keyof State) => (
         event: React.ChangeEvent<HTMLInputElement>
@@ -79,9 +108,6 @@ class SignIn extends React.Component<Props, State> {
                 this.setState({ isValidPassword: true, passwordErrorMsg: '' });
             }
 
-            console.log('password:' + this.state.password);
-            console.log('repassword:' + this.state.rePassword);
-
             if (
                 this.state.rePassword.length > 0 &&
                 this.state.rePassword !== this.state.password
@@ -98,13 +124,17 @@ class SignIn extends React.Component<Props, State> {
     };
 
     onSignClick = async (e: any) => {
-        if (!this.state.isValidPassword || !this.state.isPasswordMatch || this.state.password.length === 0) {
+        if (
+            !this.state.isValidPassword ||
+            !this.state.isPasswordMatch ||
+            this.state.password.length === 0
+        ) {
             return;
         }
 
         if (this.props.signUp !== undefined) {
             this.setState({ isLoading: true });
-            await this.props.signUp(this.state.username, this.state.password);
+            await this.props.signUp({ username: this.state.username, password: this.state.password, team: this.state.team });
             this.setState({ isLoading: false });
         }
     };
@@ -124,7 +154,7 @@ class SignIn extends React.Component<Props, State> {
                     className={clsx(classes.margin, classes.textField)}
                     variant="outlined"
                     type={'text'}
-                    label="username"
+                    label="Username"
                     required
                     disabled={this.state.isLoading}
                     fullWidth
@@ -157,8 +187,8 @@ class SignIn extends React.Component<Props, State> {
                                     {this.state.showPassword ? (
                                         <VisibilityOff />
                                     ) : (
-                                        <Visibility />
-                                    )}
+                                            <Visibility />
+                                        )}
                                 </IconButton>
                             </InputAdornment>
                         )
@@ -198,8 +228,8 @@ class SignIn extends React.Component<Props, State> {
                                     {this.state.showPassword ? (
                                         <VisibilityOff />
                                     ) : (
-                                        <Visibility />
-                                    )}
+                                            <Visibility />
+                                        )}
                                 </IconButton>
                             </InputAdornment>
                         )
@@ -210,6 +240,52 @@ class SignIn extends React.Component<Props, State> {
                         {'Passwords not match'}
                     </Typography>
                 )}
+
+                <FormControl
+                    variant="filled"
+                    fullWidth
+                    className={clsx(
+                        classes.margin,
+                        classes.textField,
+                        classes.formControl
+                    )}
+                >
+                    <InputLabel htmlFor="filled-age-simple">Team</InputLabel>
+                    <Select
+                        onChange={this.onTeamSelected}
+                        value={this.state.selectTeam}
+                        fullWidth
+                        required
+                        disabled={this.state.isLoading}
+                        variant="outlined"
+                        inputProps={{
+                            name: 'team',
+                            id: 'filled-age-simple'
+                        }}
+                    >
+                        <MenuItem value="create">
+                            <em>Create</em>
+                        </MenuItem>
+                        <MenuItem value={"pixel"}>Ten</MenuItem>
+                        <MenuItem value={"word"}>Twenty</MenuItem>
+                        <MenuItem value={"dsadsad"}>Thirty</MenuItem>
+                    </Select>
+                </FormControl>
+                {this.state.createTeam
+                    &&
+                    <TextField
+                        id="outlined-adornment-team"
+                        className={clsx(classes.margin, classes.textField)}
+                        variant="outlined"
+                        type={'text'}
+                        label="Team"
+                        required
+                        disabled={this.state.isLoading}
+                        fullWidth
+                        value={this.state.team}
+                        onChange={this.handleChange('team')}
+                    />
+                }
                 <div className={classes.wrapper}>
                     <Button
                         variant="contained"

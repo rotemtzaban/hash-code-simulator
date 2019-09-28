@@ -3,14 +3,14 @@ import React, { MouseEventHandler, Mixin } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import IFetchRsult from '../../Models/FetchResult';
 import SnackbarContent from '../../SnackbarContent';
+import { Snackbar } from '@material-ui/core';
 import User from '../../Models/User';
-import Snackbar from '@material-ui/core/Snackbar';
 
 export interface AuthComponenetProps {
     isLoggedIn?: boolean;
     user?: User;
     signIn?: (username: string, password: string, fallbackUrl?: string) => Promise<IFetchRsult>;
-    signUp?: (username: string, password: string) => Promise<IFetchRsult>;
+    signUp?: (user: User & { password: string }) => Promise<IFetchRsult>;
 }
 
 interface AuthState {
@@ -27,7 +27,7 @@ function withAuth<T extends AuthComponenetProps>(
     return class extends React.Component<
         T & RouteComponentProps<any>,
         AuthState
-    > {
+        > {
         constructor(props: T & RouteComponentProps<any>) {
             super(props);
             this.state = {
@@ -89,11 +89,10 @@ function withAuth<T extends AuthComponenetProps>(
         };
 
         signUp = async (
-            username: string,
-            password: string,
+            user: User & { password: string },
             fallbaclUrl?: string
         ) => {
-            let fetchResult = await AuthManager.signUp(username, password);
+            let fetchResult = await AuthManager.signUp(user);
             if (fetchResult.isSuccessfull) {
                 if (
                     fallbaclUrl !== undefined &&
