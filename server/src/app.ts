@@ -1,6 +1,5 @@
 import express from 'express';
 import * as bodyParser from 'body-parser';
-import helmet from 'helmet';
 import cors from 'cors';
 import routes from './routes';
 import Mongoose from 'mongoose';

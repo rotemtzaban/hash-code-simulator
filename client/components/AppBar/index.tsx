@@ -16,11 +16,14 @@ import withAuth from '../Auth/AuthManager/AuthProvider';
 import { AuthComponenetProps } from '../Auth/AuthManager/AuthProvider';
 
 import AuthManager from '../Auth/AuthManager/AuthManager';
+import SubmissionDialog from '../SubmissionModal';
 
 interface AppBarProps
     extends WithStyles<typeof styles>,
         AuthComponenetProps,
-        RouteComponentProps<any> {}
+        RouteComponentProps<any> {
+            onSubmitButtonClick:() => void;
+        }
 
 function ButtonAppBar(props: AppBarProps) {
     const { classes } = props;
@@ -33,7 +36,7 @@ function ButtonAppBar(props: AppBarProps) {
             </IconButton>
             <p>Scoreboard</p>
         </MenuItem>,
-        <MenuItem onClick={() => props.history.push('/submit')}>
+        <MenuItem onClick={props.onSubmitButtonClick}>
             <IconButton aria-label="show 4 new mails" color="inherit">
                 <CloudUpload />
             </IconButton>

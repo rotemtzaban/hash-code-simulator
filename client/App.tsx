@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import SignUp from './components/Auth/SignUp';
 import SignIn from './components/Auth/SignIn';
 import QuestionCard from './components/QuestionCard';
+import SubmissionDialog from './components/SubmissionModal';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -29,15 +30,26 @@ const styles = (theme: Theme) =>
         }
     });
 
+interface AppState{
+    isSubmissionInProgress:boolean;
+}
+
+type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
+
 class HelloWorld extends React.Component<
-    RouteComponentProps<any> & WithStyles<typeof styles>
-> {
+    AppProps, AppState>
+{
+    constructor(props: AppProps){
+        super(props);
+        this.state = {isSubmissionInProgress:false};
+    }
     render() {
         return (
             <div>
                 <ThemeProvider theme={createMuiTheme()}>
                     <Router history={this.props.history}>
-                        <ButtonAppBar />
+                        <ButtonAppBar onSubmitButtonClick={() => this.setState({isSubmissionInProgress: true})} />
+                        <SubmissionDialog open={this.state.isSubmissionInProgress} onClose={() => this.setState({isSubmissionInProgress:false})}></SubmissionDialog>
                         <Route exact path="/signin">
                             <SignIn />
                         </Route>
