@@ -147,7 +147,6 @@ class SignIn extends React.Component<Props, State> {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={this.onSignClick}
                             type="submit"
                             fullWidth
                             className={classes.signup}

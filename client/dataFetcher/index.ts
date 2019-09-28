@@ -4,54 +4,69 @@ import TeamResult from '../components/Models/TeamResult';
 
 class DataFetcher {
     public async GetTeamResults(year: string): Promise<TeamResult | IFetchRsult> {
-        var result = await this.MakeAuthFetchReuquest<TeamResult>('/team/results/' + year);
+        var result = await this.MakeAuthGetFetchReuquest<TeamResult>('/team/results/' + year);
         return result;
     }
 
-    private async MakeAuthFetchReuquest<TResult>(
-        url: string,
-        body?: any
-    ): Promise<TeamResult | IFetchRsult> {
-        const token = AuthManager.getToken();
-        if (token === undefined) {
-            return { isSuccessfull: false, errorMsg: 'user does not connected' };
-        }
-
-        var response = await fetch('/api/' + url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer' + AuthManager.getToken()
-            }
-        });
-
-        if (!response.ok) {
-            const errorMsg = await response.text();
-            return { isSuccessfull: false, errorMsg };
-        }
-
-        var result = await (response.json() as Promise<{ data: TResult }>);
-        return { ...result, isSuccessfull: true };
+    public async GetAllTeams(): Promise<string[] | IFetchRsult>{
+        const teams = await this.MakeGetFetchReuquest<string[]>("/data/teams");
+        return teams;
     }
 
-    private async MakeUnAuthFetchReuquest<TResult>(
-        url: string,
-        body?: any
-    ): Promise<TeamResult | IFetchRsult> {
-        var response = await fetch('/api/data' + url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+    private async MakeGetFetchReuquest<TResult>(url: string)
+    {
+        return this.MakeFetchReuquest<TResult>(url, false, "GET");
+    }
+    private async MakeAuthGetFetchReuquest<TResult>(url: string)
+    {
+        return this.MakeFetchReuquest<TResult>(url, true, "GET");
+    }
 
-        if (!response.ok) {
-            const errorMsg = await response.text();
-            return { isSuccessfull: false, errorMsg };
+    private async MakeFetchReuquest<TResult>(
+        url: string,
+        isAuth: boolean = false,
+        method : string,
+        body: any | undefined = undefined
+    ): Promise<TResult | IFetchRsult> {
+        const token = AuthManager.getToken();
+        if (isAuth && token === undefined) {
+            return { isSuccessfull: false, errorMsg: 'user is not connected' };
         }
 
-        var result = await (response.json() as Promise<{ data: TResult }>);
-        return { ...result, isSuccessfull: true };
+        let headers: Record<string, string> = {  'Content-Type': 'application/json',
+        Authorization: 'Bearer' + AuthManager.getToken()}
+
+        if(!isAuth){
+            headers = {  'Content-Type': 'application/json'}
+        }
+
+        if(method == "GET"){
+            var response = await fetch('/api/' + url, {
+                method: method,
+                headers : headers
+            });
+            if (!response.ok) {
+                const errorMsg = await response.text();
+                return { isSuccessfull: false, errorMsg };
+            }
+    
+            var result = await (response.json() as Promise<TResult>);
+            return result;
+        }
+        else{
+            var response = await fetch('/api/' + url, {
+                method: method,
+                headers: headers,
+                body: body
+            });
+            if (!response.ok) {
+                const errorMsg = await response.text();
+                return { isSuccessfull: false, errorMsg };
+            }
+    
+            var result = await (response.json() as Promise<TResult>);
+            return result;
+        }
     }
 }
 

@@ -59,7 +59,7 @@ class Auth {
         }
     }
 
-    async signUp(username: string, password: string) {
+    async signUp(user: User & { password: string }) {
         try {
             var response = await fetch('/api/auth/signup', {
                 method: 'POST',
@@ -67,8 +67,7 @@ class Auth {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username,
-                    password
+                    user
                 })
             });
 
@@ -135,7 +134,9 @@ class Auth {
         localStorage.setItem('jwtToken', token);
         this.token = token;
         this.tokenData = jwtDecode<TokenData>(token);
-        this.user = { username: this.tokenData.username, email: '' };
+        if (this.tokenData !== undefined) {
+            this.user = { username: this.tokenData.username, team: this.tokenData.team };
+        }
         this.isLoggedIn = true;
     }
 }

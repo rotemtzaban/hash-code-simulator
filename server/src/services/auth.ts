@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken"
-import IUser from "../models/IUser";
 import config from "../config/config"
 import TokenData from "../models/TokenData";
+import IUserDetails from "../models/IUserDetails";
 
-export function checkToken(token: string | undefined): IUser | null {
+export function checkToken(token: string | undefined): IUserDetails | null {
     if (token === undefined) {
         return null;
     }
@@ -12,7 +12,7 @@ export function checkToken(token: string | undefined): IUser | null {
     try {
         jwtPayload = (jwt.verify(token as string, config.jwtSecret) as TokenData);
         // TODO: do we wanna change email to team ? to ignore ? remove?
-        const user: IUser = { username: jwtPayload.username, email: "" };
+        const user: IUserDetails = { username: jwtPayload.username , team: jwtPayload.team};
         return user;
     } catch (error) {
         return null;
@@ -26,9 +26,9 @@ export function checkToken(token: string | undefined): IUser | null {
     // res.setHeader("token", newToken);
 }
 
-export function createToken(user: IUser): string {
+export function createToken(user: IUserDetails): string {
     const token = jwt.sign(
-        { username: user.username },
+        user,
         config.jwtSecret,
         { expiresIn: "12h" }
     );

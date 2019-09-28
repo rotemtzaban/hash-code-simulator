@@ -7,7 +7,8 @@ import Mongoose from 'mongoose';
 Mongoose.connect('mongodb://localhost:27017/hashcode', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 }).then(() => {
     const app = express();
     app.use(cors());

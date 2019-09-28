@@ -28,6 +28,10 @@ export default (theme: Theme) => createStyles({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
     wrapper: {
         margin: theme.spacing(1),
         position: 'relative',
