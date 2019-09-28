@@ -35,6 +35,7 @@ interface State {
     createTeam: boolean;
     selectTeam: string;
     errorMsg: string;
+    teams: string[];
 }
 
 interface Props
@@ -42,14 +43,14 @@ interface Props
     AuthComponenetProps,
     RouteComponentProps<any> { }
 
-class SignIn extends React.Component<Props, State> {
+class SignUp extends React.Component<Props, State> {
     //TODO : validate all fields ( team files is not empty)
     // get teams from server
     // validate that the newely created team is not already exsits
-
     constructor(props: Props) {
         super(props);
         this.state = {
+            teams: [],
             errorMsg: '',
             createTeam: false,
             password: '',
@@ -78,8 +79,9 @@ class SignIn extends React.Component<Props, State> {
         if (this.props.isLoggedIn) {
             this.props.history.push('/');
         }
-
-        // this.teams = await DataFetcher.GetAllTeams();
+        
+        const teams =  await DataFetcher.GetAllTeams() as string[];
+        this.setState({teams})
     }
 
     onTeamSelected = (event: ChangeEvent<{ name?: string; value: unknown; }>, child: ReactNode) => {
@@ -266,9 +268,9 @@ class SignIn extends React.Component<Props, State> {
                         <MenuItem value="create">
                             <em>Create</em>
                         </MenuItem>
-                        <MenuItem value={"pixel"}>Ten</MenuItem>
-                        <MenuItem value={"word"}>Twenty</MenuItem>
-                        <MenuItem value={"dsadsad"}>Thirty</MenuItem>
+                        {this.state.teams.map(_ => 
+                        <MenuItem key={_} value={_}>{_}</MenuItem>
+                        )}
                     </Select>
                 </FormControl>
                 {this.state.createTeam
@@ -310,4 +312,4 @@ class SignIn extends React.Component<Props, State> {
     }
 }
 
-export default withRouter(withAuth(withStyles(styles)(SignIn)));
+export default withRouter(withAuth(withStyles(styles)(SignUp)));

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import bcrypt from "bcrypt";
 import { User, IUserModel } from "../db/IUserModel";
-import { Team, ITeamModel, isTeam } from "../db/ITeamModel";
+import  Team,{ isTeam } from "../db/ITeamModel";
 import * as jwtHandler from "../services/auth";
 import IUserDetails from "../models/IUserDetails";
 

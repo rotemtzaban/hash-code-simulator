@@ -15,4 +15,5 @@ export let TeamsSchema: Schema = new Schema({
     },
 });
 
-export const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamsSchema);
+const Team: Model<ITeamModel> = model<ITeamModel>("Team", TeamsSchema);
+export default Team;
