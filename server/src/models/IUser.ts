@@ -1,5 +1,5 @@
 interface IUser {
-    email: string;
+    team: string;
     username: string;
 }
 

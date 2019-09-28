@@ -3,15 +3,16 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { User, IUserModel } from "../db/mongodb";
 import * as jwtHandler from "../services/auth";
+import IUser from "../models/IUser";
 
 class AuthController {
     public static signIn = async (req: Request, res: Response) => {
-        const { username, password } = req.body;
+        const { password, username } : {password: string, username: string}  = req.body;
+
         if (!(username && password)) {
             return res.status(400).send("missing username or password");
         }
 
-        const passwordAsString = password as string;
         let user: IUserModel | null = null;
         try {
             user = await User.findOne().where("username", username);
@@ -21,7 +22,7 @@ class AuthController {
         } catch (error) {
             return res.status(401).send("an error occourd");
         }
-        if (!await bcrypt.compare(passwordAsString, user.password)) {
+        if (!await bcrypt.compare(password, user.password)) {
             return res.status(401).send("invalid password");
         }
 
@@ -30,16 +31,14 @@ class AuthController {
     };
 
     public static signUp = async (req: Request, res: Response) => {
-        const { username, password } = req.body;
-        if (!(username && password)) {
+        const { password, ...userDetails } : {password: string} & IUser = req.body;
+        if (!(userDetails.username && password)) {
             return res.status(400).send("missing username or password");
         }
 
-        const usernameAsString = username as string;
-        const passwordAsString = password as string;
         let user: IUserModel | null = null;
         try {
-            user = await User.findOne().where("username", username);
+            user = await User.findOne().where("username", userDetails.username);
             if (user !== null) {
                 return res.status(401).send("username already exsists");
             }
@@ -47,8 +46,8 @@ class AuthController {
             return res.status(401).send("error occourd in sign up");
         }
 
-        const hashedPassword = await bcrypt.hash(passwordAsString, 15);
-        const newUser = new User({ username: usernameAsString, password: hashedPassword });
+        const hashedPassword = await bcrypt.hash(password, 15);
+        const newUser = new User({ team: userDetails.team, username: userDetails.username, password: hashedPassword });
         await newUser.save();
 
         const token = jwtHandler.createToken(newUser);
