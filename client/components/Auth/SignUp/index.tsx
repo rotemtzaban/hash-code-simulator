@@ -1,15 +1,3 @@
-import {
-    TextField,
-    WithStyles,
-    InputAdornment,
-    IconButton,
-    withStyles,
-    Container,
-    Avatar,
-    Typography,
-    Button,
-    CircularProgress
-} from '@material-ui/core';
 import React from 'react';
 import styles from './styles';
 import Visibility from '@material-ui/icons/Visibility';
@@ -19,6 +7,15 @@ import withAuth from '../AuthManager/AuthProvider';
 import { AuthComponenetProps } from '../AuthManager/AuthProvider';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import clsx from 'clsx';
+import { WithStyles, withStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface State {
     password: string;

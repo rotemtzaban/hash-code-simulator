@@ -12,7 +12,8 @@
   },
   "prettier": {
     "tabWidth": 4,
-    "singleQuote": true
+    "singleQuote": true,
+    "printWidth": 95
   },
   "keywords": [],
   "author": "",

@@ -9,7 +9,7 @@ import ExitToApp from '@material-ui/icons/ExitToApp';
 import styles from './styles';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { MenuItem, Paper } from '@material-ui/core';
+import  MenuItem  from '@material-ui/core/MenuItem';
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import Score from '@material-ui/icons/Score';
 import withAuth from '../Auth/AuthManager/AuthProvider';

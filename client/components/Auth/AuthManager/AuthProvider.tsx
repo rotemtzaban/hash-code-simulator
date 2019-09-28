@@ -3,8 +3,8 @@ import React, { MouseEventHandler, Mixin } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import IFetchRsult from '../../Models/FetchResult';
 import SnackbarContent from '../../SnackbarContent';
-import { Snackbar } from '@material-ui/core';
 import User from '../../Models/User';
+import Snackbar from '@material-ui/core/Snackbar';
 
 export interface AuthComponenetProps {
     isLoggedIn?: boolean;

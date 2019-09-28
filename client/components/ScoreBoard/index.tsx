@@ -6,8 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { createStyles, Theme, withStyles } from '@material-ui/core';
-import {  WithStyles } from '@material-ui/styles';
+import { Theme, createStyles, WithStyles, withStyles } from '@material-ui/core/styles';
 
 const styles = (theme: Theme) =>
     createStyles({
