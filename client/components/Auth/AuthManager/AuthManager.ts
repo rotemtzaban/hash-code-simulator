@@ -135,7 +135,7 @@ class Auth {
         this.token = token;
         this.tokenData = jwtDecode<TokenData>(token);
         if (this.tokenData !== undefined) {
-            this.user = { username: this.tokenData.username, team: '' };
+            this.user = { username: this.tokenData.username, team: this.tokenData.team };
         }
         this.isLoggedIn = true;
     }

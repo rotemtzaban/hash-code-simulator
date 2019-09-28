@@ -1,5 +1,8 @@
+import { ITeamModel } from "../db/ITeamModel";
+import { ObjectID } from "bson";
+
 interface IUser {
-    team: string;
+    team: ObjectID | ITeamModel;
     username: string;
 }
 
