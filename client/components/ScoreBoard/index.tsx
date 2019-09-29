@@ -33,10 +33,10 @@ interface TeamRecord {
 }
 
 const data: TeamRecord[] = [
-    { team: 'pixel', score: 9001, position: 1 },
-    { team: 'anotherTeam', score: 8000, position: 2 },
-    { team: 'anotherTeam2', score: 7000, position: 3 },
-    { team: 'anotherTeam3', score: 4000, position: 4 }
+    {  position: 1, team: 'pixel', score: 9001 },
+    {  position: 2, team: 'anotherTeam', score: 8000 },
+    {  position: 3, team: 'anotherTeam2', score: 7000 },
+    {  position: 4, team: 'anotherTeam3', score: 4000 }
 ];
 
 interface ScoreBoardProps extends WithStyles<typeof styles> {}
@@ -49,19 +49,17 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
                 <Table className={classes.table}>
                     <TableHead className={classes.head}>
                         <TableRow>
+                            <TableCell className={classes.headCell} align="left">Position</TableCell>
                             <TableCell className={classes.headCell} align="left">Team</TableCell>
                             <TableCell className={classes.headCell} align="left">Score</TableCell>
-                            <TableCell className={classes.headCell} align="left">Position</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {data.map((row, i) => (
                             <TableRow key={row.team}>
+                                <TableCell align="left">{row.position}</TableCell>
                                 <TableCell align="left">{row.team}</TableCell>
                                 <TableCell align="left">{row.score}</TableCell>
-                                <TableCell align="left">
-                                    {row.position}
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
