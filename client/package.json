@@ -6,7 +6,7 @@
   "scripts": {
     "build-dev": "webpack",
     "build-prod": "cross-env NODE_ENV=production webpack",
-    "run-dev": "webpack-dev-server",
+    "dev": "webpack-dev-server",
     "clean": "rimraf dist",
     "veryclean": "rimraf dist node_modules"
   },
