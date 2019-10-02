@@ -39,7 +39,7 @@ interface AppState {
 
 type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
 
-class HelloWorld extends React.Component<
+class SinglePageApp extends React.Component<
     AppProps, AppState>
 {
     constructor(props: AppProps) {
@@ -49,7 +49,7 @@ class HelloWorld extends React.Component<
 
     async componentWillMount() {
         var scoreBoard = await dataFetcher.GetScoreboard()
-        this.setState({data: scoreBoard});
+        this.setState({ data: scoreBoard });
     }
     render() {
         return (
@@ -108,4 +108,4 @@ class HelloWorld extends React.Component<
     }
 }
 
-export default withStyles(styles)(withRouter(HelloWorld));
+export default withStyles(styles)(withRouter(SinglePageApp));
