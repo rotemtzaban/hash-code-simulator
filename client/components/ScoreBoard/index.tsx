@@ -39,7 +39,8 @@ const data: TeamRecord[] = [
 ].sort((a, b) => (a.position > b.position) ? 1 : -1);
 
 interface ScoreBoardProps extends WithStyles<typeof styles> {
-    data: TeamRecord[]
+    data: TeamRecord[];
+    maxHeight?: string
 }
 
 //TODO : sort by ourselves ? or trust server?
@@ -47,7 +48,7 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
     render() {
         const classes = this.props.classes;
         return (
-            <Paper className={classes.root}>
+            <Paper className={classes.root} style={{ maxHeight: this.props.maxHeight }}>
                 <Table className={classes.table}>
                     <TableHead className={classes.head}>
                         <TableRow>

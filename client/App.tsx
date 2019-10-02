@@ -28,7 +28,8 @@ const styles = (theme: Theme) =>
         },
         item: {
             padding: theme.spacing(2),
-            marginTop: theme.spacing(3)
+            marginTop: theme.spacing(3),
+            maxHeight: "40vh"
         },
         paper: {
             textAlign: 'center',
@@ -89,11 +90,11 @@ class SinglePageApp extends React.Component<
 
     render() {
         return (
-            <div>
-                <ThemeProvider theme={createMuiTheme()}>
-                    <Router history={this.props.history}>
-                        <ButtonAppBar onSubmitButtonClick={() => this.setState({ isSubmissionInProgress: true })} />
-                        <SubmissionDialog open={this.state.isSubmissionInProgress} onClose={() => this.setState({ isSubmissionInProgress: false })}></SubmissionDialog>
+            <ThemeProvider theme={createMuiTheme()}>
+                <Router history={this.props.history}>
+                    <ButtonAppBar onSubmitButtonClick={() => this.setState({ isSubmissionInProgress: true })} />
+                    <SubmissionDialog open={this.state.isSubmissionInProgress} onClose={() => this.setState({ isSubmissionInProgress: false })}></SubmissionDialog>
+                    <div style={{ overflowY: "auto" }}>
                         <Route exact path="/signin">
                             <SignIn />
                         </Route>
@@ -102,7 +103,7 @@ class SinglePageApp extends React.Component<
                         </Route>
                         <Route exact path="/scoreboard">
                             <div style={{ margin: '80px' }}>
-                                <ScoreBoard data={this.state.scoreboardData} />
+                                <ScoreBoard data={this.state.scoreboardData}  maxHeight="90vh"/>
                             </div>
                         </Route>
                         <Route exact path="/">
@@ -133,7 +134,7 @@ class SinglePageApp extends React.Component<
                                     >
                                         Scoreboard
                                     </Typography>
-                                    <ScoreBoard data={this.state.scoreboardData} />
+                                    <ScoreBoard data={this.state.scoreboardData} maxHeight="35vh"/>
                                 </Grid>
                                 {this.props.isLoggedIn && this.state.teamResult &&
                                     <Grid
@@ -164,9 +165,9 @@ class SinglePageApp extends React.Component<
                                 }
                             </Grid>
                         </Route>
-                    </Router>
-                </ThemeProvider>
-            </div>
+                    </div>
+                </Router>
+            </ThemeProvider>
         );
     }
 }
