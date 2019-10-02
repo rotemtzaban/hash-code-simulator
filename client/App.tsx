@@ -42,9 +42,26 @@ type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
 class SinglePageApp extends React.Component<
     AppProps, AppState>
 {
+    interval: NodeJS.Timeout | undefined;
     constructor(props: AppProps) {
         super(props);
         this.state = { isSubmissionInProgress: false, data: [] };
+    }
+
+
+    tick = async () => {
+        var scoreBoard = await dataFetcher.GetScoreboard()
+        this.setState({ data: scoreBoard });
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => this.tick(), 5000);
+    }
+
+    componentWillUnmount() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
     }
 
     async componentWillMount() {
