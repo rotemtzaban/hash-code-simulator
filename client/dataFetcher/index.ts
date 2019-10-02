@@ -4,13 +4,13 @@ import TeamResult from '../components/Models/TeamResult';
 import { TeamRecord } from '../components/ScoreBoard';
 
 class DataFetcher {
-    public async GetTeamResults(year: string): Promise<TeamResult> {
-        var result = await this.MakeAuthGetFetchReuquest<TeamResult>('/team/results/' + year);
+    public async GetTeamResults(): Promise<TeamResult> {
+        var result = await this.MakeAuthGetFetchReuquest<TeamResult>('/team/results');
         return result;
     }
 
     public async GetScoreboard(): Promise<TeamRecord[]> {
-        var result = await this.MakeAuthGetFetchReuquest<TeamRecord[]>('/data/scoreboard');
+        var result = await this.MakeGetFetchReuquest<TeamRecord[]>('/data/scoreboard');
         return result;
     }
 

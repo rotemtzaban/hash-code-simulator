@@ -16,11 +16,15 @@ import SubmissionDialog from './components/SubmissionModal';
 import { Button } from '@material-ui/core';
 import DataFetcher from "./dataFetcher"
 import dataFetcher from './dataFetcher';
+import { borderTop, borderColor } from '@material-ui/system';
+import withAuth, { AuthComponenetProps } from './components/Auth/AuthManager/AuthProvider';
+import TeamResult from './components/Models/TeamResult';
+import TeamScoreBoard from './components/TeamScoreBoard';
 
 const styles = (theme: Theme) =>
     createStyles({
         root: {
-            flexGrow: 1
+            flexGrow: 1,
         },
         item: {
             padding: theme.spacing(2),
@@ -28,34 +32,49 @@ const styles = (theme: Theme) =>
         },
         paper: {
             textAlign: 'center',
-            color: theme.palette.text.secondary
+            color: theme.palette.text.primary
+        },
+        bottomGrid: {
+            padding: theme.spacing(2),
+            marginTop: theme.spacing(3),
+            borderTop: "3px solid",
+            borderColor: theme.palette.primary.light,
         }
     });
 
 interface AppState {
     isSubmissionInProgress: boolean;
-    data: TeamRecord[]
+    scoreboardData: TeamRecord[],
+    topScore: number,
+    teamResult?: TeamResult
 }
 
-type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
+type AppProps = RouteComponentProps<any> & WithStyles<typeof styles> & AuthComponenetProps;
 
 class SinglePageApp extends React.Component<
     AppProps, AppState>
 {
-    interval: NodeJS.Timeout | undefined;
+    interval: number;
     constructor(props: AppProps) {
         super(props);
-        this.state = { isSubmissionInProgress: false, data: [] };
+        this.interval = 0;
+        this.state = { isSubmissionInProgress: false, scoreboardData: [], topScore: 0 };
     }
 
 
     tick = async () => {
         var scoreBoard = await dataFetcher.GetScoreboard()
-        this.setState({ data: scoreBoard });
+        if (this.props.isLoggedIn) {
+            const teamResult = await dataFetcher.GetTeamResults();
+            const topScore: number = teamResult.topScore.a + teamResult.topScore.b + teamResult.topScore.c + teamResult.topScore.d + teamResult.topScore.e;
+            this.setState({ scoreboardData: scoreBoard, teamResult, topScore });
+            return;
+        }
+        this.setState({ scoreboardData: scoreBoard });
     }
 
     componentDidMount() {
-        this.interval = setInterval(() => this.tick(), 5000);
+        this.interval = window.setInterval(() => this.tick(), 5000);
     }
 
     componentWillUnmount() {
@@ -65,9 +84,9 @@ class SinglePageApp extends React.Component<
     }
 
     async componentWillMount() {
-        var scoreBoard = await dataFetcher.GetScoreboard()
-        this.setState({ data: scoreBoard });
+        this.tick()
     }
+
     render() {
         return (
             <div>
@@ -83,7 +102,7 @@ class SinglePageApp extends React.Component<
                         </Route>
                         <Route exact path="/scoreboard">
                             <div style={{ margin: '80px' }}>
-                                <ScoreBoard data={this.state.data} />
+                                <ScoreBoard data={this.state.scoreboardData} />
                             </div>
                         </Route>
                         <Route exact path="/">
@@ -114,8 +133,35 @@ class SinglePageApp extends React.Component<
                                     >
                                         Scoreboard
                                     </Typography>
-                                    <ScoreBoard data={this.state.data} />
+                                    <ScoreBoard data={this.state.scoreboardData} />
                                 </Grid>
+                                {this.props.isLoggedIn && this.state.teamResult &&
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        className={this.props.classes.bottomGrid}
+                                    >
+
+                                        <Typography
+                                            variant="h3"
+                                        >
+                                            Team Details
+                                        </Typography>
+                                        <Typography
+                                            style={{ color: "rgb(49, 140, 201)" }}
+                                            variant="h6"
+                                        >
+                                            Team Current Top Score: {this.state.topScore}
+                                        </Typography>
+                                        <Typography
+                                            style={{ color: "rgb(49, 140, 201)" }}
+                                            variant="h6"
+                                        >
+                                            All Team Submissions:
+                                        </Typography>
+                                        <TeamScoreBoard data={this.state.teamResult} />
+                                    </Grid>
+                                }
                             </Grid>
                         </Route>
                     </Router>
@@ -125,4 +171,4 @@ class SinglePageApp extends React.Component<
     }
 }
 
-export default withStyles(styles)(withRouter(SinglePageApp));
+export default withStyles(styles)(withRouter(withAuth(SinglePageApp)));

@@ -48,7 +48,8 @@ class SubmissionController {
             return res.status(400).send("user doesnt have a valid team");
         }
 
-        return res.json(userTeam.submissions);
+        const submission: any = { topScore: userTeam.bestScore, submissions: userTeam.submissions }
+        return res.json(submission);
     }
 }
 

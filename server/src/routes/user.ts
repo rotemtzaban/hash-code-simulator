@@ -4,6 +4,6 @@ import SubmissionController from "../controllers/SubmissionController";
 const router = Router();
 
 router.get("/submitscore", SubmissionController.submiteScore);
-router.get("/getSubmissions", SubmissionController.getSubmissions);
+router.get("/results", SubmissionController.getSubmissions);
 
 export default router;

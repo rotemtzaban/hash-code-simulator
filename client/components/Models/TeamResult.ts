@@ -4,7 +4,15 @@ interface QuestionResult {
     score: number;
 }
 
+export interface Submission {
+    a: number;
+    b: number;
+    c: number;
+    d: number;
+    e: number;
+}
+
 export default interface TeamResult {
-    year: string;
-    inputScores : QuestionResult[]
+    topScore: Submission;
+    submissions : Submission[]
 }
