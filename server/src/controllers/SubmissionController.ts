@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import Team, { Submission } from "../db/ITeamModel";
 import IUserDetails from "../models/IUserDetails";
+import GameStat from "../db/GameStat";
 
 class SubmissionController {
     public static submiteScore = async (req: Request, res: Response) => {
@@ -11,31 +12,26 @@ class SubmissionController {
         if (userTeam == null) {
             return res.status(500).send("user has no valid team");
         }
-        let needToUpdate = false;
         if (score.a > userTeam.bestScore.a) {
             userTeam.bestScore.a = score.a;
-            needToUpdate = true;
         }
         if (score.b > userTeam.bestScore.b) {
             userTeam.bestScore.b = score.b;
-            needToUpdate = true;
         }
         if (score.c > userTeam.bestScore.c) {
             userTeam.bestScore.c = score.c;
-            needToUpdate = true;
         }
         if (score.d > userTeam.bestScore.d) {
             userTeam.bestScore.d = score.d;
-            needToUpdate = true;
         }
         if (score.e > userTeam.bestScore.e) {
             userTeam.bestScore.e = score.e;
-            needToUpdate = true;
         }
 
         userTeam.submissions.push(score);
-        const first3Hours = true;
-        if (first3Hours) {
+
+        const gamestat = await GameStat.findOne()
+        if (gamestat && !gamestat.isLastHour) {
             userTeam.first3HoursBestScore = userTeam.bestScore;
         }
 
