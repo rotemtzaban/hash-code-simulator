@@ -38,6 +38,19 @@ class SubmissionController {
         await userTeam.save();
         return res.status(201).send();
     }
+
+
+    public static getSubmissions = async (req: Request, res: Response) => {
+        const user: IUserDetails = res.locals.user as IUserDetails;
+        const userTeam = await Team.findOne().where("name", user.team);
+
+        if (!userTeam) {
+            return res.status(400).send("user doesnt have a valid team");
+        }
+
+        return res.json(userTeam.submissions);
+    }
 }
+
 
 export default SubmissionController;
