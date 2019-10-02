@@ -52,8 +52,8 @@ function withAuth<T extends AuthComponenetProps>(
 
         handleChange() {
             console.log(AuthManager.isLoggedIn);
-            let token = AuthManager.getToken();
-            let user = token === undefined ? '' : token.username;
+            let profile = AuthManager.getProfile();
+            let user = profile === undefined ? '' : profile.username;
             this.setState({
                 isLoggedIn: AuthManager.isLoggedIn,
                 user: AuthManager.getProfile()

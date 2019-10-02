@@ -14,6 +14,8 @@ import SignUp from './components/Auth/SignUp';
 import SignIn from './components/Auth/SignIn';
 import QuestionCard from './components/QuestionCard';
 import SubmissionDialog from './components/SubmissionModal';
+import { Button } from '@material-ui/core';
+import DataFetcher from "./dataFetcher"
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -30,8 +32,8 @@ const styles = (theme: Theme) =>
         }
     });
 
-interface AppState{
-    isSubmissionInProgress:boolean;
+interface AppState {
+    isSubmissionInProgress: boolean;
 }
 
 type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
@@ -39,17 +41,17 @@ type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
 class HelloWorld extends React.Component<
     AppProps, AppState>
 {
-    constructor(props: AppProps){
+    constructor(props: AppProps) {
         super(props);
-        this.state = {isSubmissionInProgress:false};
+        this.state = { isSubmissionInProgress: false };
     }
     render() {
         return (
             <div>
                 <ThemeProvider theme={createMuiTheme()}>
                     <Router history={this.props.history}>
-                        <ButtonAppBar onSubmitButtonClick={() => this.setState({isSubmissionInProgress: true})} />
-                        <SubmissionDialog open={this.state.isSubmissionInProgress} onClose={() => this.setState({isSubmissionInProgress:false})}></SubmissionDialog>
+                        <ButtonAppBar onSubmitButtonClick={() => this.setState({ isSubmissionInProgress: true })} />
+                        <SubmissionDialog open={this.state.isSubmissionInProgress} onClose={() => this.setState({ isSubmissionInProgress: false })}></SubmissionDialog>
                         <Route exact path="/signin">
                             <SignIn />
                         </Route>
@@ -75,9 +77,9 @@ class HelloWorld extends React.Component<
                                     xs={3}
                                     className={this.props.classes.item}
                                 >
-                                    <Paper
-                                        className={this.props.classes.paper}
-                                    ></Paper>
+                                    <Button onClick={async () => {
+                                        await DataFetcher.MakeAuthGetFetchReuquest("/team/submitscore");
+                                    }}>fake submit</Button>
                                 </Grid>
                                 <Grid
                                     item

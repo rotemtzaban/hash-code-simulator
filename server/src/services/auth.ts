@@ -11,7 +11,6 @@ export function checkToken(token: string | undefined): IUserDetails | null {
     let jwtPayload;
     try {
         jwtPayload = (jwt.verify(token as string, config.jwtSecret) as TokenData);
-        // TODO: do we wanna change email to team ? to ignore ? remove?
         const user: IUserDetails = { username: jwtPayload.username , team: jwtPayload.team};
         return user;
     } catch (error) {

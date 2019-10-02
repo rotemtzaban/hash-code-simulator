@@ -16,7 +16,7 @@ class AuthController {
 
         let user: IUserModel | null = null;
         try {
-            user = await User.findOne().where("username", username).populate("team");
+            user = await User.findOne().where("username", username).populate({path: "team",select: "name"});
             if (user === null) {
                 return res.status(401).send("username does not exsists");
             }
@@ -56,7 +56,7 @@ class AuthController {
 
         const hashedPassword = await bcrypt.hash(userDetails.password, 15);
 
-        const team = await Team.findOneAndUpdate({ "name": userDetails.team }, { name: userDetails.team }, { upsert: true, new: true });
+        const team = await Team.findOneAndUpdate({ "name": userDetails.team }, { name: userDetails.team }, { upsert: true, new: true,setDefaultsOnInsert: true });
         if (!team) {
             return res.status(500).send("error occourd in sign up");
         }

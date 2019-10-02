@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import Team from "../db/ITeamModel";
 
-class FilesController {
+class DataController {
     public static getAllTeams = async (req: Request, res: Response) => {
         const allTeams = await Team.find();
 
@@ -9,4 +9,4 @@ class FilesController {
     }
 }
 
-export default FilesController;
+export default DataController;

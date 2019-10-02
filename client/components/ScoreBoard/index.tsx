@@ -35,9 +35,9 @@ interface TeamRecord {
 const data: TeamRecord[] = [
     {  position: 1, team: 'pixel', score: 9001 },
     {  position: 2, team: 'anotherTeam', score: 8000 },
-    {  position: 3, team: 'anotherTeam2', score: 7000 },
-    {  position: 4, team: 'anotherTeam3', score: 4000 }
-];
+    {  position: 4, team: 'anotherTeam3', score: 4000 },
+    {  position: 3, team: 'anotherTeam2', score: 7000 }
+].sort((a, b) => (a.position > b.position) ? 1 : -1);
 
 interface ScoreBoardProps extends WithStyles<typeof styles> {}
 

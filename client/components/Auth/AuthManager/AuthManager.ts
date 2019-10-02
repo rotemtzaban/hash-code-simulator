@@ -96,11 +96,11 @@ class Auth {
     }
 
     getProfile() {
-        return this.user;
+        return this.tokenData;
     }
 
     getToken() {
-        return this.tokenData;
+        return this.token;
     }
 
     isAuthenticated() {

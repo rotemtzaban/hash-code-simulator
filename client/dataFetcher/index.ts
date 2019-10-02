@@ -8,24 +8,23 @@ class DataFetcher {
         return result;
     }
 
-    public async GetAllTeams(): Promise<string[] | IFetchRsult>{
+    public async GetAllTeams(): Promise<string[] | IFetchRsult> {
         const teams = await this.MakeGetFetchReuquest<string[]>("/data/teams");
         return teams;
     }
 
-    private async MakeGetFetchReuquest<TResult>(url: string)
-    {
+    public async MakeGetFetchReuquest<TResult>(url: string) {
         return this.MakeFetchReuquest<TResult>(url, false, "GET");
     }
-    private async MakeAuthGetFetchReuquest<TResult>(url: string)
-    {
+
+    public async MakeAuthGetFetchReuquest<TResult>(url: string) {
         return this.MakeFetchReuquest<TResult>(url, true, "GET");
     }
 
     private async MakeFetchReuquest<TResult>(
         url: string,
         isAuth: boolean = false,
-        method : string,
+        method: string,
         body: any | undefined = undefined
     ): Promise<TResult | IFetchRsult> {
         const token = AuthManager.getToken();
@@ -33,28 +32,30 @@ class DataFetcher {
             return { isSuccessfull: false, errorMsg: 'user is not connected' };
         }
 
-        let headers: Record<string, string> = {  'Content-Type': 'application/json',
-        Authorization: 'Bearer' + AuthManager.getToken()}
-
-        if(!isAuth){
-            headers = {  'Content-Type': 'application/json'}
+        let headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
         }
 
-        if(method == "GET"){
-            var response = await fetch('/api/' + url, {
+        if (!isAuth) {
+            headers = { 'Content-Type': 'application/json' }
+        }
+
+        if (method == "GET") {
+            var response = await fetch('/api' + url, {
                 method: method,
-                headers : headers
+                headers: headers
             });
             if (!response.ok) {
                 const errorMsg = await response.text();
                 return { isSuccessfull: false, errorMsg };
             }
-    
+
             var result = await (response.json() as Promise<TResult>);
             return result;
         }
-        else{
-            var response = await fetch('/api/' + url, {
+        else {
+            var response = await fetch('/api' + url, {
                 method: method,
                 headers: headers,
                 body: body
@@ -63,7 +64,7 @@ class DataFetcher {
                 const errorMsg = await response.text();
                 return { isSuccessfull: false, errorMsg };
             }
-    
+
             var result = await (response.json() as Promise<TResult>);
             return result;
         }
