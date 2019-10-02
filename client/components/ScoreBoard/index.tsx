@@ -43,7 +43,6 @@ interface ScoreBoardProps extends WithStyles<typeof styles> {
     maxHeight?: string
 }
 
-//TODO : sort by ourselves ? or trust server?
 class ScoreBoard extends React.Component<ScoreBoardProps> {
     render() {
         const classes = this.props.classes;

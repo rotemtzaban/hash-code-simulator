@@ -20,7 +20,6 @@ interface AuthState {
     snackBarErrorMsg: string;
 }
 
-// TODO - add loading symbol on loading.
 function withAuth<T extends AuthComponenetProps>(
     Component: React.ComponentType<T>
 ) {

@@ -28,8 +28,6 @@ class DataController {
         else {
             return res.json(bestScore.map(_ => ({ team: _.name, score: _.first3HoursBestScore.totalBestScore })));
         }
-
-        //TODO: what about my best score ??  maybe in app ? 
     }
 }
 

@@ -45,7 +45,6 @@ interface Props
 
 class SignUp extends React.Component<Props, State> {
     //TODO : validate all fields ( team files is not empty)
-    // get teams from server
     // validate that the newely created team is not already exsits
     constructor(props: Props) {
         super(props);
