@@ -21,26 +21,28 @@ const styles = (theme: Theme) =>
             backgroundColor: theme.palette.primary.dark,
             color: theme.palette.common.white
         },
-        headCell:{
+        headCell: {
             color: theme.palette.common.white
         }
     });
 
-interface TeamRecord {
+export interface TeamRecord {
     team: string;
     score: number;
-    position: number;
 }
 
 const data: TeamRecord[] = [
-    {  position: 1, team: 'pixel', score: 9001 },
-    {  position: 2, team: 'anotherTeam', score: 8000 },
-    {  position: 4, team: 'anotherTeam3', score: 4000 },
-    {  position: 3, team: 'anotherTeam2', score: 7000 }
+    { position: 1, team: 'pixel', score: 9001 },
+    { position: 2, team: 'anotherTeam', score: 8000 },
+    { position: 4, team: 'anotherTeam3', score: 4000 },
+    { position: 3, team: 'anotherTeam2', score: 7000 }
 ].sort((a, b) => (a.position > b.position) ? 1 : -1);
 
-interface ScoreBoardProps extends WithStyles<typeof styles> {}
+interface ScoreBoardProps extends WithStyles<typeof styles> {
+    data: TeamRecord[]
+}
 
+//TODO : sort by ourselves ? or trust server?
 class ScoreBoard extends React.Component<ScoreBoardProps> {
     render() {
         const classes = this.props.classes;
@@ -55,9 +57,9 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((row, i) => (
+                        {this.props.data.map((row, i) => (
                             <TableRow key={row.team}>
-                                <TableCell align="left">{row.position}</TableCell>
+                                <TableCell align="left">{i + 1}</TableCell>
                                 <TableCell align="left">{row.team}</TableCell>
                                 <TableCell align="left">{row.score}</TableCell>
                             </TableRow>

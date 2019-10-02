@@ -1,14 +1,21 @@
 import AuthManager from '../components/Auth/AuthManager/AuthManager';
 import IFetchRsult from '../components/Models/FetchResult';
 import TeamResult from '../components/Models/TeamResult';
+import { TeamRecord } from '../components/ScoreBoard';
 
 class DataFetcher {
-    public async GetTeamResults(year: string): Promise<TeamResult | IFetchRsult> {
+    public async GetTeamResults(year: string): Promise<TeamResult> {
         var result = await this.MakeAuthGetFetchReuquest<TeamResult>('/team/results/' + year);
         return result;
     }
 
-    public async GetAllTeams(): Promise<string[] | IFetchRsult> {
+    public async GetScoreboard(): Promise<TeamRecord[]> {
+        var result = await this.MakeAuthGetFetchReuquest<TeamRecord[]>('/data/scoreboard');
+        return result;
+    }
+
+
+    public async GetAllTeams(): Promise<string[]> {
         const teams = await this.MakeGetFetchReuquest<string[]>("/data/teams");
         return teams;
     }
@@ -26,10 +33,10 @@ class DataFetcher {
         isAuth: boolean = false,
         method: string,
         body: any | undefined = undefined
-    ): Promise<TResult | IFetchRsult> {
+    ): Promise<TResult> {
         const token = AuthManager.getToken();
         if (isAuth && token === undefined) {
-            return { isSuccessfull: false, errorMsg: 'user is not connected' };
+            throw new Error("user is not connected");
         }
 
         let headers: Record<string, string> = {
@@ -48,7 +55,7 @@ class DataFetcher {
             });
             if (!response.ok) {
                 const errorMsg = await response.text();
-                return { isSuccessfull: false, errorMsg };
+                throw new Error(errorMsg);
             }
 
             var result = await (response.json() as Promise<TResult>);
@@ -62,7 +69,7 @@ class DataFetcher {
             });
             if (!response.ok) {
                 const errorMsg = await response.text();
-                return { isSuccessfull: false, errorMsg };
+                throw new Error(errorMsg);
             }
 
             var result = await (response.json() as Promise<TResult>);

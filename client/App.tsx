@@ -5,17 +5,17 @@ import { ThemeProvider, createStyles } from '@material-ui/styles';
 import createMuiTheme, { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { Router, RouteComponentProps, Route } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import ScoreBoard from './components/ScoreBoard';
+import ScoreBoard, { TeamRecord } from './components/ScoreBoard';
 import Grid from '@material-ui/core/Grid';
 import { WithStyles, withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import SignUp from './components/Auth/SignUp';
 import SignIn from './components/Auth/SignIn';
 import QuestionCard from './components/QuestionCard';
 import SubmissionDialog from './components/SubmissionModal';
 import { Button } from '@material-ui/core';
 import DataFetcher from "./dataFetcher"
+import dataFetcher from './dataFetcher';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -34,6 +34,7 @@ const styles = (theme: Theme) =>
 
 interface AppState {
     isSubmissionInProgress: boolean;
+    data: TeamRecord[]
 }
 
 type AppProps = RouteComponentProps<any> & WithStyles<typeof styles>;
@@ -43,7 +44,12 @@ class HelloWorld extends React.Component<
 {
     constructor(props: AppProps) {
         super(props);
-        this.state = { isSubmissionInProgress: false };
+        this.state = { isSubmissionInProgress: false, data: [] };
+    }
+
+    async componentWillMount() {
+        var scoreBoard = await dataFetcher.GetScoreboard()
+        this.setState({data: scoreBoard});
     }
     render() {
         return (
@@ -60,7 +66,7 @@ class HelloWorld extends React.Component<
                         </Route>
                         <Route exact path="/scoreboard">
                             <div style={{ margin: '80px' }}>
-                                <ScoreBoard />
+                                <ScoreBoard data={this.state.data} />
                             </div>
                         </Route>
                         <Route exact path="/">
@@ -91,7 +97,7 @@ class HelloWorld extends React.Component<
                                     >
                                         Scoreboard
                                     </Typography>
-                                    <ScoreBoard />
+                                    <ScoreBoard data={this.state.data} />
                                 </Grid>
                             </Grid>
                         </Route>
